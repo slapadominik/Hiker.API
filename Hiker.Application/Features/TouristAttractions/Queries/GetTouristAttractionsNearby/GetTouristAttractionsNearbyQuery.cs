@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Hiker.Application.TouristAttractions.Queries.GetTouristAttractionsNearby
+namespace Hiker.Application.Features.TouristAttractions.Queries.GetTouristAttractionsNearby
 {
     public class GetTouristAttractionsNearbyQuery : IRequest
     {

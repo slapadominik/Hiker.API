@@ -12,6 +12,7 @@ namespace Hiker.API.DTO
         public int DurationDays { get; set; }
         public int MaxParticipants { get; set; }
         public string Description { get; set; }
-        public IEnumerable<User> Users { get; set; }
+        public IEnumerable<TripDestination> Destinations { get; set; }
+        public IEnumerable<User> Participants { get; set; }
     }
 }

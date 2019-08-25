@@ -7,7 +7,7 @@ namespace Hiker.API.DTO
         public int Id { get; set; }
         public string Name { get; set; }
         public int MetersAboveSeaLevel { get; set; }
-        public IEnumerable<MountainTrail> Trips { get; set; }
+        public IEnumerable<MountainTrail> Trails { get; set; }
         public Location Location { get; set; }
     }
 }

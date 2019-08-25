@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hiker.Application.Features.Account.Services;
+using Hiker.Application.Features.Account.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +28,9 @@ namespace Hiker.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IJwtHandler, JwtHandler>();
+            services.AddTransient<IFacebookService, FacebookService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,7 +46,6 @@ namespace Hiker.API
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

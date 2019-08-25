@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Hiker.API.DTO;
-using Hiker.Application.TouristAttractions.Queries.GetTouristAttractionsNearby;
+using Hiker.Application.Features.TouristAttractions.Queries.GetTouristAttractionsNearby;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
