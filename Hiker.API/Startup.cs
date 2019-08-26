@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Hiker.Application.Features.Account.Services;
 using Hiker.Application.Features.Account.Services.Interfaces;
+using Hiker.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -31,6 +33,7 @@ namespace Hiker.API
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IJwtHandler, JwtHandler>();
             services.AddTransient<IFacebookService, FacebookService>();
+            services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(Configuration["LocalDb:ConnectionString"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -19,7 +19,6 @@ namespace Hiker.API
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseUrls(urls: "http://localhost:44375")
                 .UseStartup<Startup>();
     }
 }
