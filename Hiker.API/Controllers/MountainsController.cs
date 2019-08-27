@@ -34,5 +34,19 @@ namespace Hiker.API.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Mountain>>> GetAll()
+        {
+            try
+            {
+                var mountains = await _mediator.Send(new GetMountainsNearbyLocationQuery(latitude, longitude, radius));
+                return Ok(mountains);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }
