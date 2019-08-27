@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Hiker.API.DTO;
-using Hiker.Application.Features.TouristAttractions.Queries.GetTouristAttractionsNearby;
+using Hiker.API.DTO.Resource;
+using Hiker.Application.Features.Mountains.Queries.GetMountainsNearbyLocation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +23,15 @@ namespace Hiker.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Mountain>>> GetManyNearbyLocation([FromQuery] double latitude, [FromQuery] double longitude, [FromQuery] double radius)
         {
-            return Ok(await _mediator.Send(new GetTouristAttractionsNearbyQuery()));
+            try
+            {
+                var mountains = await _mediator.Send(new GetMountainsNearbyLocationQuery(latitude, longitude, radius));
+                return Ok(mountains);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
     }

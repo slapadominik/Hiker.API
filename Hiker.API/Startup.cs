@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using FluentValidation;
+using Hiker.Application.Common;
 using Hiker.Application.Features.Account.Services;
 using Hiker.Application.Features.Account.Services.Interfaces;
+using Hiker.Application.Features.Mountains.Queries.GetMountainsNearbyLocation;
 using Hiker.Persistence;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,6 +19,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Hiker.API
 {
@@ -33,7 +39,23 @@ namespace Hiker.API
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IJwtHandler, JwtHandler>();
             services.AddTransient<IFacebookService, FacebookService>();
+
+            services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault(assembly => assembly.GetName().Name == "Hiker.Application"));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            services.AddTransient<IValidator<GetMountainsNearbyLocationQuery>, GetMountainsNearbyLocationQueryValidator>();
+
             services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(Configuration["LocalDb:ConnectionString"]));
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = "Hiker.API",
+                    Description = "REST API do wycieczek turystycznych",
+                    TermsOfService = "None",
+                }
+                );
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +72,11 @@ namespace Hiker.API
             }
 
             app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
         }
     }
 }

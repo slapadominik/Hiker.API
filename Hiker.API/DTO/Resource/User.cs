@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Hiker.API.DTO
+namespace Hiker.API.DTO.Resource
 {
     public class User
     {

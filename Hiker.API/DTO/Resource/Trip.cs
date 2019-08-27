@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
-namespace Hiker.API.DTO
+namespace Hiker.API.DTO.Resource
 {
     public class Trip
     {

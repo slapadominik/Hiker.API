@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Hiker.API.DTO
+namespace Hiker.API.DTO.Resource
 {
     public class Mountain
     {
