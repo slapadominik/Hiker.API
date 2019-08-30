@@ -5,13 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="8.4.0" />
-    <PackageReference Include="MediatR" Version="7.0.0" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+    <Compile Remove="Features\TouristAttractions\**" />
+    <EmbeddedResource Remove="Features\TouristAttractions\**" />
+    <None Remove="Features\TouristAttractions\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\TouristAttractions\Commands\" />
+    <PackageReference Include="FluentValidation" Version="8.4.0" />
+    <PackageReference Include="MediatR" Version="7.0.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>

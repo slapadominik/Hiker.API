@@ -43,11 +43,9 @@ namespace Hiker.API
             services.AddTransient<IJwtHandler, JwtHandler>();
             services.AddTransient<IFacebookService, FacebookService>();
             services.AddTransient<IMountainsRepository, MountainsRepository>();
-            services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault(assembly => assembly.GetName().Name == "Hiker.Application"));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             services.AddTransient<IValidator<GetMountainsNearbyLocationQuery>, GetMountainsNearbyLocationQueryValidator>();
 
-            services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(Configuration["LocalDb:ConnectionString"]));
+            services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("HikerDbAzure")));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info
@@ -61,6 +59,8 @@ namespace Hiker.API
             });
 
             services.InstallConverters();
+            services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault(assembly => assembly.GetName().Name == "Hiker.Application"));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
