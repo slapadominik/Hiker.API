@@ -1,6 +1,6 @@
 ﻿namespace Hiker.API.DTO.Resource
 {
-    public enum TrailColor
+    public enum TrailColorResource
     {
         Red = 1,
         Green = 2,

@@ -1,6 +1,6 @@
 ﻿namespace Hiker.API.DTO.Resource
 {
-    public class Location
+    public class LocationResource
     {
         public double Latitude { get; set; }
 

@@ -2,7 +2,7 @@
 
 namespace Hiker.API.DTO.Resource
 {
-    public class User
+    public class UserResource
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Hiker.API.DTO.Resource
 {
-    public class Trip
+    public class TripResource
     {
         public int Id { get; set; }
         public string TripTitle { get; set; }
@@ -12,6 +12,6 @@ namespace Hiker.API.DTO.Resource
         public int MaxParticipants { get; set; }
         public string Description { get; set; }
         public IEnumerable<TripDestination> Destinations { get; set; }
-        public IEnumerable<User> Participants { get; set; }
+        public IEnumerable<UserResource> Participants { get; set; }
     }
 }

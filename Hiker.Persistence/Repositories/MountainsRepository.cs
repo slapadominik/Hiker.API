@@ -18,7 +18,7 @@ namespace Hiker.Persistence.Repositories
 
         public Task<List<Mountain>> GetAllAsync()
         {
-            return _appDbContext.Mountains.ToListAsync();
+            return _appDbContext.Mountains.Include(x => x.Location).ToListAsync();
         }
     }
 }
