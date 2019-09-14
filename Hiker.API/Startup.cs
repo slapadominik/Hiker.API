@@ -39,12 +39,9 @@ namespace Hiker.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IJwtHandler, JwtHandler>();
-            services.AddTransient<IFacebookService, FacebookService>();
             services.AddTransient<IMountainsRepository, MountainsRepository>();
             services.AddTransient<IValidator<GetMountainsNearbyLocationQuery>, GetMountainsNearbyLocationQueryValidator>();
-
             services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("HikerDbAzure")));
             services.AddSwaggerGen(c =>
             {
@@ -59,6 +56,7 @@ namespace Hiker.API
             });
 
             services.InstallConverters();
+            services.InstallServices();
             services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault(assembly => assembly.GetName().Name == "Hiker.Application"));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         }

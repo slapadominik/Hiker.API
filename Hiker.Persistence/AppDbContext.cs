@@ -12,8 +12,15 @@ namespace Hiker.Persistence
         public DbSet<Trip> Trips { get; set; }
         public DbSet<TripDestination> TripDestinations { get; set; }
         public DbSet<TripDestinationType> TripDestinationTypes { get; set; }
+        public DbSet<MountainImage> MountainImages { get; set; }
+
         public AppDbContext(DbContextOptions options) : base(options)
         {
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<MountainImage>().HasKey(t => new {t.ImageId, t.MountainId});
         }
     }
 }

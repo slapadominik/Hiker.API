@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Hiker.Persistence.DAO
@@ -10,11 +11,15 @@ namespace Hiker.Persistence.DAO
         public string Name { get; set; }
         public int MetersAboveSeaLevel { get; set; }
         public IEnumerable<MountainTrail> MountainTrail { get; set; }
+        public Guid ThumbnailId { get; set; }
         public Location Location { get; set; }
         public int LocationId { get; set; }
+        public IEnumerable<MountainImage> MountainImages { get; set; }
+
         public Mountain()
         {
             MountainTrail = new List<MountainTrail>();
+            MountainImages = new List<MountainImage>();
         }
     }
 }

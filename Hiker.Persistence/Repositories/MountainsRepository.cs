@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Hiker.Persistence.DAO;
 using Hiker.Persistence.Repositories.Interfaces;
@@ -19,6 +21,25 @@ namespace Hiker.Persistence.Repositories
         public Task<List<Mountain>> GetAllAsync()
         {
             return _appDbContext.Mountains.Include(x => x.Location).ToListAsync();
+        }
+
+        public IQueryable<Mountain> GetByIdAsync(int id)
+        {
+            return _appDbContext.Mountains.Include(x => x.Location).Include(y => y.ThumbnailId);
+        }
+
+        public async Task<Guid?> GetMountainThumbnailIdAsync(int mountainId)
+        {
+            var mountain = await _appDbContext.Mountains.SingleOrDefaultAsync(x => x.Id == mountainId);
+            return mountain?.ThumbnailId;
+        }
+    }
+
+    public static class MountainsQueryableExtensions
+    {
+        public static IQueryable<Mountain> WithImages(this IQueryable<Mountain> query)
+        {
+            return query.Include(x => x.MountainImages);
         }
     }
 }
