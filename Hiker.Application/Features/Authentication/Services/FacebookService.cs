@@ -2,11 +2,12 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Hiker.Application.Features.Account.DTO;
-using Hiker.Application.Features.Account.Services.Interfaces;
+using Hiker.Application.Common.Exceptions;
+using Hiker.Application.Features.Authentication.DTO;
+using Hiker.Application.Features.Authentication.Services.Interfaces;
 using Newtonsoft.Json;
 
-namespace Hiker.Application.Features.Account.Services
+namespace Hiker.Application.Features.Authentication.Services
 {
     public class FacebookService : IFacebookService
     {
@@ -26,14 +27,15 @@ namespace Hiker.Application.Features.Account.Services
 
         public async Task<FacebookUser> GetUserFromFacebookAsync(string facebookToken)
         {
-            var result = await GetAsync<dynamic>(facebookToken, "me", "fields=first_name,last_name,email,picture.width(100).height(100)");
+            var result = await GetAsync<dynamic>(facebookToken, "me", "fields=id,first_name,last_name,email,picture.width(100).height(100)");
             if (result == null)
             {
-                throw new Exception("User from this token not exist");
+                return null;
             }
 
             var account = new FacebookUser()
             {
+                FacebookId = result.id,
                 Email = result.email,
                 FirstName = result.first_name,
                 LastName = result.last_name,

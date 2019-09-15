@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Hiker.Application.Features.Account.DTO;
-using Hiker.Application.Features.Account.Services.Interfaces;
+using Hiker.Application.Features.Authentication.DTO;
+using Hiker.Application.Features.Authentication.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Hiker.Application.Features.Account.Services
+namespace Hiker.Application.Features.Authentication.Services
 {
     public class JwtHandler : IJwtHandler
     {

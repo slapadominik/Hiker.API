@@ -1,8 +1,8 @@
 ﻿using Hiker.Application.Common;
 using Hiker.Application.Common.Services;
 using Hiker.Application.Common.Services.Interfaces;
-using Hiker.Application.Features.Account.Services;
-using Hiker.Application.Features.Account.Services.Interfaces;
+using Hiker.Application.Features.Authentication.Services;
+using Hiker.Application.Features.Authentication.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using RestSharp;
 
@@ -16,6 +16,7 @@ namespace Hiker.API.DI
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IFacebookService, FacebookService>();
             services.AddTransient<IRestClient, RestClient>();
+            services.AddTransient<IJwtHandler, JwtHandler>();
         }
     }
 }

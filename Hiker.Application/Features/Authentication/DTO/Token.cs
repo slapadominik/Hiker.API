@@ -1,4 +1,4 @@
-﻿namespace Hiker.Application.Features.Account.DTO
+﻿namespace Hiker.Application.Features.Authentication.DTO
 {
     public class Token
     {

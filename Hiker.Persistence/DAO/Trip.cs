@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Hiker.Persistence.DAO
 {
@@ -9,11 +10,15 @@ namespace Hiker.Persistence.DAO
         public int DurationDays { get; set; }
         public int MaxParticipants { get; set; }
         public string Description { get; set; }
+        public User Author { get; set; }
+        public Guid? AuthorId { get; set; }
         public IEnumerable<TripDestination> TripDestinations { get; set; }
+        public IEnumerable<TripParticipant> TripParticipants { get; set; }
 
         public Trip()
         {
             TripDestinations = new List<TripDestination>();
+            TripParticipants = new List<TripParticipant>();
         }
     }
 }

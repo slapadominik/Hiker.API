@@ -13,6 +13,8 @@ namespace Hiker.Persistence
         public DbSet<TripDestination> TripDestinations { get; set; }
         public DbSet<TripDestinationType> TripDestinationTypes { get; set; }
         public DbSet<MountainImage> MountainImages { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<TripParticipant> TripParticipants { get; set; }
 
         public AppDbContext(DbContextOptions options) : base(options)
         {
@@ -20,7 +22,20 @@ namespace Hiker.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<MountainImage>().HasKey(t => new {t.ImageId, t.MountainId});
+            modelBuilder.Entity<MountainImage>()
+                .HasKey(t => new {t.ImageId, t.MountainId});
+
+            modelBuilder.Entity<TripParticipant>()
+                .HasKey(t => new {t.TripId, t.UserId});
+            modelBuilder.Entity<TripParticipant>()
+                .HasOne(x => x.User)
+                .WithMany(u => u.TripParticipants)
+                .HasForeignKey(x => x.UserId);
+            modelBuilder.Entity<TripParticipant>()
+                .HasOne(x => x.Trip)
+                .WithMany(t => t.TripParticipants)
+                .HasForeignKey(x => x.TripId);
+
         }
     }
 }

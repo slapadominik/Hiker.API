@@ -1,7 +1,7 @@
 ﻿using System;
-using Hiker.Application.Features.Account.DTO;
+using Hiker.Application.Features.Authentication.DTO;
 
-namespace Hiker.Application.Features.Account.Services.Interfaces
+namespace Hiker.Application.Features.Authentication.Services.Interfaces
 {
     public interface IJwtHandler
     {

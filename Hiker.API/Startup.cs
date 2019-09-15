@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using FluentValidation;
 using Hiker.API.DI;
+using Hiker.API.Filters;
 using Hiker.Application.Common;
-using Hiker.Application.Features.Account.Services;
-using Hiker.Application.Features.Account.Services.Interfaces;
+using Hiker.Application.Features.Authentication.Services;
+using Hiker.Application.Features.Authentication.Services.Interfaces;
 using Hiker.Application.Features.Mountains.Queries.GetMountainsNearbyLocation;
 using Hiker.Persistence;
 using Hiker.Persistence.Repositories;
 using Hiker.Persistence.Repositories.Interfaces;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -22,6 +26,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Hiker.API
@@ -39,8 +44,10 @@ namespace Hiker.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddTransient<IJwtHandler, JwtHandler>();
-            services.AddTransient<IMountainsRepository, MountainsRepository>();
+            services.InstallRepositories();
+            services.InstallConverters();
+            services.InstallServices();
+
             services.AddTransient<IValidator<GetMountainsNearbyLocationQuery>, GetMountainsNearbyLocationQueryValidator>();
             services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("HikerDbAzure")));
             services.AddSwaggerGen(c =>
@@ -53,10 +60,36 @@ namespace Hiker.API
                     TermsOfService = "None",
                 }
                 );
+                c.AddSecurityDefinition("Bearer",
+                    new ApiKeyScheme
+                    {
+                        In = "header",
+                        Description = "Please enter into field the word 'Bearer' following by space and JWT",
+                        Name = "Authorization",
+                        Type = "apiKey"
+                    });
+                c.OperationFilter<SecurityRequirementsOperationFilter>();
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
-
-            services.InstallConverters();
-            services.InstallServices();
+            services.AddAuthentication(x =>
+                {
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["jwt:secret"])),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
             services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault(assembly => assembly.GetName().Name == "Hiker.Application"));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         }
@@ -75,6 +108,7 @@ namespace Hiker.API
             }
 
             app.UseMvc();
+            app.UseAuthentication();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
