@@ -32,9 +32,9 @@ namespace Hiker.Application.Features.Account.Services
             new Claim(JwtRegisteredClaimNames.Iat, now.ToString(), ClaimValueTypes.Integer64),
             };
 
-            var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"])),
+            var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["jwt:secret"])),
                 SecurityAlgorithms.HmacSha256);
-            var expiry = now.AddMinutes(double.Parse(_configuration["Tokens:AccessExpireMinutes"]));
+            var expiry = now.AddMinutes(double.Parse(_configuration["jwt:AccessExpireMinutes"]));
             var jwt = CreateSecurityToken(claims, now, expiry, signingCredentials);
             var token = new JwtSecurityTokenHandler().WriteToken(jwt);
 
@@ -52,9 +52,9 @@ namespace Hiker.Application.Features.Account.Services
             new Claim(JwtRegisteredClaimNames.Iat, now.ToString(), ClaimValueTypes.Integer64),
             };
 
-            var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"])),
+            var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["jwt:secret"])),
                 SecurityAlgorithms.HmacSha256);
-            var expiry = now.AddMinutes(double.Parse(_configuration["Tokens:RefreshExpireMinutes"]));
+            var expiry = now.AddMinutes(double.Parse(_configuration["jwt:RefreshExpireMinutes"]));
             var jwt = CreateSecurityToken(claims, now, expiry, signingCredentials);
             var token = new JwtSecurityTokenHandler().WriteToken(jwt);
 

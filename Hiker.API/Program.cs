@@ -12,6 +12,8 @@ namespace Hiker.API
 {
     public class Program
     {
+        private static string GetKeyVaultEndpoint() => Environment.GetEnvironmentVariable("KEYVAULT_ENDPOINT");
+
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();
@@ -19,7 +21,15 @@ namespace Hiker.API
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-//                .UseUrls("http://*:5000")
+                .ConfigureAppConfiguration((context, config) =>
+                {
+                    var root = config.Build();
+                    config.AddAzureKeyVault(
+                        $"https://{root["KeyVault:VaultName"]}.vault.azure.net/",
+                    root["KeyVault:ClientId"],
+                    root["KeyVault:ClientSecret"]);
+                })
+                //                .UseUrls("http://*:5000")
                 .UseStartup<Startup>();
     }
 }
