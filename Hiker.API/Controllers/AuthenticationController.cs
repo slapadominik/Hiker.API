@@ -29,7 +29,7 @@ namespace Hiker.API.Controllers
                 var userId = await _accountService.RegisterUserFromFacebookAsync(resource);
                 return Created("/users", userId);
             }
-            catch (RemoteEntityNotFoundException ex)
+            catch (RemoteEntityNotFoundException ex)  
             {
                 return Unauthorized(ex.Message);
             }

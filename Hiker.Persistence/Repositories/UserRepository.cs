@@ -16,6 +16,11 @@ namespace Hiker.Persistence.Repositories
             _dbContext = dbContext;
         }
 
+        public Task<User> Get(Func<User, bool> predicate)
+        {
+            return _dbContext.Users.SingleOrDefaultAsync(x => predicate.Invoke(x));
+        }
+
         public Task<User> GetByFacebookIdAsync(string facebookId)
         {
             return _dbContext.Users.SingleOrDefaultAsync(user => user.FacebookId == facebookId);

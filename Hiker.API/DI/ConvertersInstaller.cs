@@ -14,6 +14,7 @@ namespace Hiker.API.DI
             services.AddTransient<IValueConverter<Location, LocationResource>, LocationResourceConverter>();
             services.AddTransient<IMountainBriefResourceConverter, MountainBriefResourceConverter>();
             services.AddTransient<IImageConverter, ImageConverter>();
+            services.AddTransient<IUserConverter, UserConverter>();
         }
     }
 }
