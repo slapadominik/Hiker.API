@@ -27,7 +27,7 @@ namespace Hiker.Application.Features.Authentication.Services
 
         public async Task<FacebookUser> GetUserFromFacebookAsync(string facebookToken)
         {
-            var result = await GetAsync<dynamic>(facebookToken, "me", "fields=id,first_name,last_name,email,picture.width(100).height(100)");
+            var result = await GetAsync<dynamic>(facebookToken, "me", "fields=id,first_name,last_name,email,picture.width(100).height(100),birthday,gender");
             if (result == null)
             {
                 return null;
@@ -39,7 +39,9 @@ namespace Hiker.Application.Features.Authentication.Services
                 Email = result.email,
                 FirstName = result.first_name,
                 LastName = result.last_name,
-                Picture = result.picture.data.url
+                Picture = result.picture.data.url,
+                Birthdate = result.birthday,
+                Gender = result.gender
             };
 
             return account;

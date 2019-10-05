@@ -43,7 +43,9 @@ namespace Hiker.Application.Features.Authentication.Services
                 Email = facebookUser.Email,
                 FirstName = facebookUser.FirstName,
                 LastName = facebookUser.LastName,
-                FacebookId = facebookUser.FacebookId
+                FacebookId = facebookUser.FacebookId,
+                Birthday = facebookUser.Birthdate,
+                Gender = facebookUser.Gender[0]
             });
         }
     }

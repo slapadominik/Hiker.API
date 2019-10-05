@@ -1,4 +1,6 @@
-﻿namespace Hiker.Application.Features.Authentication.DTO
+﻿using System;
+
+namespace Hiker.Application.Features.Authentication.DTO
 {
     public class FacebookUser
     {
@@ -7,5 +9,7 @@
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Picture { get; set; }
+        public string Gender { get; set; }
+        public DateTime Birthdate { get; set; }
     }
 }
