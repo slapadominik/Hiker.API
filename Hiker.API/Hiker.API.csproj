@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\domin\Desktop\Studia\Praca_inzynierska\Aplikacja\Hiker\Hiker.API\Hiker.API\Hiker.API.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netcoreapp2.2\Hiker.API.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp2.2\Hiker.API.xml</DocumentationFile>
+    <OutputPath />
   </PropertyGroup>
 
   <ItemGroup>

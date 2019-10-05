@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Hiker.API.Converters.Interfaces;
 using Hiker.Application.Features.Users.Queries.GetUser;
+using Hiker.Persistence.DAO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,11 +24,20 @@ namespace Hiker.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] string facebookId)
+        public async Task<IActionResult> Get([FromQuery] string facebookId, [FromQuery] Guid? userSystemId)
         {
             try
             {
-                var user = await _mediator.Send(new GetUserQuery(x => x.FacebookId == facebookId));
+                User user = null;
+                if (facebookId == null)
+                {
+                    user = await _mediator.Send(new GetUserQuery(x => x.Id == userSystemId));
+                }
+                else if (userSystemId == null)
+                {
+                    user = await _mediator.Send(new GetUserQuery(x => x.FacebookId == facebookId));
+                }
+
                 if (user == null)
                 {
                     return NotFound();
