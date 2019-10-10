@@ -24,7 +24,7 @@ namespace Hiker.API.Controllers
         }
 
         [HttpPost]
-        [Route("login/facebook")]
+        [Route("register/facebook")]
         public async Task<IActionResult> RegisterUserByFacebookTokenAsync([FromBody] FacebookToken facebookToken)
         {
             try

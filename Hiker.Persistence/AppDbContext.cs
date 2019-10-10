@@ -35,7 +35,6 @@ namespace Hiker.Persistence
                 .HasOne(x => x.Trip)
                 .WithMany(t => t.TripParticipants)
                 .HasForeignKey(x => x.TripId);
-
         }
     }
 }
