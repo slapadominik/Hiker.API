@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hiker.API", "Hiker.API\Hiker.API.csproj", "{C671A9A9-F137-44A9-9A90-79CB2B316B10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hiker.Application", "Hiker.Application\Hiker.Application.csproj", "{C16E7BAC-73BB-4BF6-A047-E4739241919A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hiker.Application", "Hiker.Application\Hiker.Application.csproj", "{C16E7BAC-73BB-4BF6-A047-E4739241919A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hiker.Persistence", "Hiker.Persistence\Hiker.Persistence.csproj", "{92C9930A-6CE5-488A-9E1A-EE260225C887}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hiker.Persistence", "Hiker.Persistence\Hiker.Persistence.csproj", "{92C9930A-6CE5-488A-9E1A-EE260225C887}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hiker.Application.Tests", "Hiker.Application.Tests\Hiker.Application.Tests.csproj", "{F263CAF7-7612-4D8B-8D77-CBB28B5BCF9A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{92C9930A-6CE5-488A-9E1A-EE260225C887}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92C9930A-6CE5-488A-9E1A-EE260225C887}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92C9930A-6CE5-488A-9E1A-EE260225C887}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F263CAF7-7612-4D8B-8D77-CBB28B5BCF9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F263CAF7-7612-4D8B-8D77-CBB28B5BCF9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F263CAF7-7612-4D8B-8D77-CBB28B5BCF9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F263CAF7-7612-4D8B-8D77-CBB28B5BCF9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
