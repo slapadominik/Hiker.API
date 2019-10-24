@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Hiker.Persistence.DAO;
 using Hiker.Persistence.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hiker.Persistence.Repositories
 {
@@ -21,9 +23,9 @@ namespace Hiker.Persistence.Repositories
             return _dbContext.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<Trip>> GetByPredicateAsync(Func<Trip, bool> predicate)
+        public IEnumerable<Trip> GetByPredicate(Func<Trip, bool> predicate)
         {
-            throw new NotImplementedException();
+            return _dbContext.Trips.Where(predicate);
         }
     }
 }

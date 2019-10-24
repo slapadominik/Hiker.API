@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Hiker.Persistence.DAO;
 
+
 namespace Hiker.Persistence.Repositories.Interfaces
 {
     public interface IMountainsRepository

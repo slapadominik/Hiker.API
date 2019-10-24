@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Hiker.API.Converters.Interfaces;
+using Hiker.Application.Features.Trips.Queries.GetIncomingTripsByUserId;
 using Hiker.Application.Features.Users.Queries.GetUser;
 using Hiker.Persistence.DAO;
 using MediatR;
@@ -14,13 +17,15 @@ namespace Hiker.API.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IUserConverter _userConverter;
+        private readonly ITripBriefResourceConverter _tripBriefResourceConverter;
 
         public UsersController(
             IMediator mediator, 
-            IUserConverter userConverter)
+            IUserConverter userConverter, ITripBriefResourceConverter tripBriefResourceConverter)
         {
             _mediator = mediator;
             _userConverter = userConverter;
+            _tripBriefResourceConverter = tripBriefResourceConverter;
         }
 
         [HttpGet]
@@ -43,6 +48,33 @@ namespace Hiker.API.Controllers
                     return NotFound();
                 }
                 return Ok(_userConverter.Convert(user));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("{userId}/trips")]
+        public async Task<IActionResult> GetUserTrips([FromRoute] Guid userId, [FromQuery] DateTime? dateFrom, [FromQuery] DateTime? dateTo)
+        {
+            try
+            {
+                IEnumerable<Trip> trips;
+                if (dateFrom.HasValue)
+                {
+                    trips = await _mediator.Send(new GetUserTripsByPredicateQuery(userId, x => x.DateFrom >= dateFrom));
+                }
+                else if (dateTo.HasValue)
+                {
+                    trips = await _mediator.Send(new GetUserTripsByPredicateQuery(userId, x => x.DateFrom >= dateFrom));
+                }
+                else
+                {
+                    return BadRequest("Either DateFrom or DateTo filter should be used.");
+                }
+
+                return Ok(trips.Select(x => _tripBriefResourceConverter.Convert(x)));
             }
             catch (Exception ex)
             {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Hiker.API.DTO.Resource
+namespace Hiker.API.DTO.Resource.Briefs
 {
-    public class TripResource
+    public class TripBriefResource
     {
         public int? Id { get; set; }
         public string TripTitle { get; set; }
@@ -11,7 +11,6 @@ namespace Hiker.API.DTO.Resource
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
         public string Description { get; set; }
-        public IEnumerable<TripDestinationResource> TripDestinations { get; set; }
-        public IEnumerable<UserResource> TripParticipants { get; set; }
+        public UserBriefResource TripParticipants { get; set; }
     }
 }
