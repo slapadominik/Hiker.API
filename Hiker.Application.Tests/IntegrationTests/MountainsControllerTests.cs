@@ -14,20 +14,20 @@ namespace Hiker.Application.Tests.IntegrationTests
     public class MountainsControllerTests
     {
         private APIWebApplicationFactory _factory;
-        private HttpClient _client;
+        private HttpClient _httpClient;
 
         [OneTimeSetUp]
         public void GivenARequestToTheController()
         {
             _factory = new APIWebApplicationFactory();
-            _client = _factory.CreateClient();
+            _httpClient = _factory.CreateClient();
         }
 
         [Test]
         public async Task GetAllBrief_ShouldReturnAllMountainBriefsFromDatabase()
         {
             //Act
-            var result = await _client.GetAsync("/api/mountains");
+            var result = await _httpClient.GetAsync("/api/mountains");
             
             //Assert
             var mountains = await result.Content.ReadAsAsync<List<MountainTrailBriefResource>>();

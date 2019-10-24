@@ -7,8 +7,8 @@ namespace Hiker.Persistence.DAO
     {
         public int Id { get; set; }
         public string TripTitle { get; set; }
-        public int DurationDays { get; set; }
-        public int MaxParticipants { get; set; }
+        public DateTime DateFrom { get; set; }
+        public DateTime DateTo { get; set; }
         public string Description { get; set; }
         public User Author { get; set; }
         public Guid? AuthorId { get; set; }

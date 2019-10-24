@@ -12,6 +12,7 @@ using Hiker.Application.Common;
 using Hiker.Application.Features.Authentication.Services;
 using Hiker.Application.Features.Authentication.Services.Interfaces;
 using Hiker.Application.Features.Mountains.Queries.GetMountainsNearbyLocation;
+using Hiker.Application.Features.Trips.Commands.AddTrip;
 using Hiker.Persistence;
 using Hiker.Persistence.Repositories;
 using Hiker.Persistence.Repositories.Interfaces;
@@ -47,8 +48,8 @@ namespace Hiker.API
             services.InstallRepositories();
             services.InstallConverters();
             services.InstallServices();
-
-            services.AddTransient<IValidator<GetMountainsNearbyLocationQuery>, GetMountainsNearbyLocationQueryValidator>();
+            services.InstallValidators();
+           
             services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("HikerDbAzure")));
             services.AddSwaggerGen(c =>
             {

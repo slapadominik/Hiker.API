@@ -3,7 +3,7 @@
     public enum TripDestinationType
     {
         Mountain = 1,
-        RockClimbing = 2,
+        Rock = 2,
         ClimbingWall = 3
     }
 }

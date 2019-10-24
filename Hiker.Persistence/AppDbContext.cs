@@ -35,6 +35,19 @@ namespace Hiker.Persistence
                 .HasOne(x => x.Trip)
                 .WithMany(t => t.TripParticipants)
                 .HasForeignKey(x => x.TripId);
+
+            Seed(modelBuilder);
+        }
+
+        private void Seed(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<TripDestinationType>()
+                .HasData(new TripDestinationType[]
+                {
+                    new TripDestinationType { Id = 1, Name = "Mountain" },
+                    new TripDestinationType { Id = 2, Name = "Rock"}
+                });
+
         }
     }
 }

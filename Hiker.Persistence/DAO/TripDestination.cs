@@ -9,7 +9,7 @@
         public int TripDestinationTypeId { get; set; }
         public Mountain Mountain { get; set; }
         public int? MountainId { get; set; }
-        public Location CustomLocation { get; set; }
-        public int? CustomLocationId { get; set; }
+        public Rock Rock { get; set; }
+        public int? RockId { get; set; }
     }
 }
