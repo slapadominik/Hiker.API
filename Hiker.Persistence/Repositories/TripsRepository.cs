@@ -10,7 +10,7 @@ namespace Hiker.Persistence.Repositories
 {
     public class TripsRepository : ITripsRepository
     {
-        private AppDbContext _dbContext;
+        private readonly AppDbContext _dbContext;
 
         public TripsRepository(AppDbContext dbContext)
         {
@@ -25,7 +25,7 @@ namespace Hiker.Persistence.Repositories
 
         public IEnumerable<Trip> GetByPredicate(Func<Trip, bool> predicate)
         {
-            return _dbContext.Trips.Where(predicate);
+            return _dbContext.Trips.Include(x => x.TripParticipants).Where(predicate);
         }
     }
 }
