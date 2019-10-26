@@ -26,7 +26,7 @@ namespace Hiker.API.Converters
         public Trip Convert(TripResource tripResource)
         {
             var trip = _mapper.Map<Trip>(tripResource);
-            trip.TripDestinations = tripResource.TripDestinations.Select(x => _tripDestinationConverter.Convert(x)).ToList();
+            trip.TripDestinations = tripResource.TripDestinations?.Select(x => _tripDestinationConverter.Convert(x)).ToList();
             return trip;
         }
     }

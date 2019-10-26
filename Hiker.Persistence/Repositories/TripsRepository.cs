@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Hiker.Persistence.DAO;
 using Hiker.Persistence.Repositories.Interfaces;
@@ -17,10 +18,11 @@ namespace Hiker.Persistence.Repositories
             _dbContext = dbContext;
         }
 
-        public Task<int> AddAsync(Trip trip)
+        public int Add(Trip trip)
         {
-            _dbContext.Trips.AddAsync(trip);
-            return _dbContext.SaveChangesAsync();
+            _dbContext.Trips.Add(trip);
+            _dbContext.SaveChanges();
+            return trip.Id;
         }
 
         public IEnumerable<Trip> GetByPredicate(Func<Trip, bool> predicate)

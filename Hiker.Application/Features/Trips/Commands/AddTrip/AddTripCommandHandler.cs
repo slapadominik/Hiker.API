@@ -16,7 +16,7 @@ namespace Hiker.Application.Features.Trips.Commands.AddTrip
 
         public Task<int> Handle(AddTripCommand request, CancellationToken cancellationToken)
         {
-            return _tripsRepository.AddAsync(request.Trip);
+            return Task.FromResult(_tripsRepository.Add(request.Trip));
         }
     }
 }
