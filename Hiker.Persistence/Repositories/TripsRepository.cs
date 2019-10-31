@@ -27,7 +27,9 @@ namespace Hiker.Persistence.Repositories
 
         public Task<Trip> GetByIdAsync(int tripId)
         {
-            return _dbContext.Trips.Include(x=> x.Author).Include(x => x.TripParticipants).ThenInclude(x => x.User).Include(x => x.TripDestinations)
+            return _dbContext.Trips.Include(x=> x.Author).Include(x => x.TripParticipants).ThenInclude(x => x.User)
+                .Include(x => x.TripDestinations).ThenInclude(x => x.Mountain).ThenInclude(x => x.Location)
+                .Include(x => x.TripDestinations).ThenInclude(x => x.Rock).ThenInclude(x => x.Location)
                 .SingleOrDefaultAsync(x => x.Id == tripId);
         }
 

@@ -2,23 +2,24 @@
 using AutoMapper;
 using Hiker.API.Converters.Interfaces;
 using Hiker.API.DTO.Resource;
+using Hiker.API.DTO.Resource.Query;
 using Hiker.Persistence.DAO;
 
 namespace Hiker.API.Converters
 {
-    public class TripResourceConverter : ITripResourceConverter
+    public class TripDetailsResourceConverter : ITripResourceConverter
     {
         private readonly IMapper _mapper;
         private readonly IUserBriefResourceConverter _userBriefResourceConverter;
         private readonly ITripDestinationConverter _tripDestinationConverter;
         
-        public TripResourceConverter(ITripDestinationConverter tripDestinationConverter, IUserBriefResourceConverter userBriefResourceConverter)
+        public TripDetailsResourceConverter(ITripDestinationConverter tripDestinationConverter, IUserBriefResourceConverter userBriefResourceConverter)
         {
             _tripDestinationConverter = tripDestinationConverter;
             _userBriefResourceConverter = userBriefResourceConverter;
             var mapperConfig = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Trip, TripResource>()
+                cfg.CreateMap<Trip, TripQueryResource>()
                     .ForMember(x => x.TripParticipants, opt => opt.Ignore())
                     .ForMember(x => x.TripDestinations, opt => opt.Ignore())
                     .ForMember(x => x.Author, opt => opt.Ignore());
@@ -27,9 +28,9 @@ namespace Hiker.API.Converters
             _mapper = mapperConfig.CreateMapper();
         }
 
-        public TripResource Convert(Trip trip)
+        public TripQueryResource Convert(Trip trip)
         {
-            var tripResource = _mapper.Map<TripResource>(trip);
+            var tripResource = _mapper.Map<TripQueryResource>(trip);
             tripResource.TripParticipants = trip.TripParticipants?.Select(x => _userBriefResourceConverter.Convert(x.User));
             tripResource.TripDestinations = trip.TripDestinations?.Select(x => _tripDestinationConverter.Convert(x));
             if (trip.Author != null)

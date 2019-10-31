@@ -1,8 +1,7 @@
-﻿namespace Hiker.API.DTO.Resource
+﻿namespace Hiker.API.DTO.Resource.Briefs
 {
-    public class TripDestinationResource
+    public class TripDestinationBriefResource
     {
-        public int? Id { get; set; }
         public TripDestinationType Type { get; set; }
         public int? MountainId { get; set; }
         public int? RockId { get; set; }

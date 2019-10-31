@@ -2,6 +2,7 @@
 using Hiker.API.Converters;
 using Hiker.API.Converters.Interfaces;
 using Hiker.API.DTO.Resource;
+using Hiker.API.DTO.Resource.Briefs;
 using Hiker.Persistence.DAO;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,8 +19,9 @@ namespace Hiker.API.DI
             services.AddTransient<ITripDestinationConverter, TripDestinationConverter>();
             services.AddTransient<ITripConverter, TripConverter>();
             services.AddTransient<ITripBriefResourceConverter, TripBriefResourceConverter>();
-            services.AddTransient<ITripResourceConverter, TripResourceConverter>();
+            services.AddTransient<ITripResourceConverter, TripDetailsResourceConverter>();
             services.AddTransient<IUserBriefResourceConverter, UserBriefResourceConverter>();
+            services.AddTransient<IRockBriefResourceConverter, RockBriefResourceConverter>();
         }
     }
 }

@@ -13,15 +13,15 @@ namespace Hiker.API.Converters
         {
             var mapperConfig = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<User, UserBriefResource>()
+                cfg.CreateMap<User, UserBriefQueryResource>()
                     .ForMember(x => x.ProfilePictureUrl, opt => opt.Ignore());
             });
 
             _mapper = mapperConfig.CreateMapper();
         }
-        public UserBriefResource Convert(User user)
+        public UserBriefQueryResource Convert(User user)
         {
-            var userBrief = _mapper.Map<UserBriefResource>(user);
+            var userBrief = _mapper.Map<UserBriefQueryResource>(user);
             if (!string.IsNullOrEmpty(user.FacebookId))
             {
                 userBrief.ProfilePictureUrl = $"{Consts.FacebookAPI}{user.FacebookId}/picture?width=300&height=300";

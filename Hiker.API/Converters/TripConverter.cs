@@ -2,6 +2,7 @@
 using AutoMapper;
 using Hiker.API.Converters.Interfaces;
 using Hiker.API.DTO.Resource;
+using Hiker.API.DTO.Resource.Command;
 using Hiker.Persistence.DAO;
 
 namespace Hiker.API.Converters
@@ -16,17 +17,18 @@ namespace Hiker.API.Converters
             _tripDestinationConverter = tripDestinationConverter;
             var mapperConfig = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<TripResource, Trip>()
+                cfg.CreateMap<TripCommandResource, Trip>()
                     .ForMember(x => x.TripDestinations, opt => opt.Ignore())
-                    .ForMember(x => x.TripParticipants, opt => opt.Ignore());
+                    .ForMember(x => x.TripParticipants, opt => opt.Ignore())
+                    .ForMember(x => x.Author, opt => opt.Ignore());
                 
             });
             _mapper = mapperConfig.CreateMapper();
         }
-        public Trip Convert(TripResource tripResource)
+        public Trip Convert(TripCommandResource tripCommandResource)
         {
-            var trip = _mapper.Map<Trip>(tripResource);
-            trip.TripDestinations = tripResource.TripDestinations?.Select(x => _tripDestinationConverter.Convert(x)).ToList();
+            var trip = _mapper.Map<Trip>(tripCommandResource);
+            trip.TripDestinations = tripCommandResource.TripDestinations?.Select(x => _tripDestinationConverter.Convert(x)).ToList();
             return trip;
         }
     }

@@ -31,8 +31,4 @@
     <ProjectReference Include="..\Hiker.Persistence\Hiker.Persistence.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTO\Requests\" />
-  </ItemGroup>
-
 </Project>

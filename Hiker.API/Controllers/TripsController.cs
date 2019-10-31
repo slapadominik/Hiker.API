@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Hiker.API.Converters.Interfaces;
 using Hiker.API.DTO.Resource;
+using Hiker.API.DTO.Resource.Command;
 using Hiker.Application.Features.Trips.Commands.AddTrip;
 using Hiker.Application.Features.Trips.Queries.GetTripDetails;
 using MediatR;
@@ -26,11 +27,11 @@ namespace Hiker.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> Add([FromBody] TripResource trip)
+        public async Task<ActionResult<int>> Add([FromBody] TripCommandResource tripCommand)
         {
             try
             {
-                var id = await _mediator.Send(new AddTripCommand(_tripConverter.Convert(trip)));
+                var id = await _mediator.Send(new AddTripCommand(_tripConverter.Convert(tripCommand)));
                 return Ok(id);
             }
             catch (Exception ex)

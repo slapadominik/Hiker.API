@@ -3,8 +3,8 @@ using Hiker.Persistence.DAO;
 
 namespace Hiker.API.Converters.Interfaces
 {
-    public interface IUserBriefResourceConverter
+    public interface IRockBriefResourceConverter
     {
-        UserBriefQueryResource Convert(User user);
+        RockBriefResource Convert(Rock rock);
     }
 }

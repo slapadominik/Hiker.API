@@ -2,7 +2,7 @@
 
 namespace Hiker.API.DTO.Resource.Briefs
 {
-    public class UserBriefResource
+    public class UserBriefQueryResource
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }
