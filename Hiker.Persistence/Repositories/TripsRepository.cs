@@ -25,6 +25,12 @@ namespace Hiker.Persistence.Repositories
             return trip.Id;
         }
 
+        public Task<Trip> GetByIdAsync(int tripId)
+        {
+            return _dbContext.Trips.Include(x=> x.Author).Include(x => x.TripParticipants).ThenInclude(x => x.User).Include(x => x.TripDestinations)
+                .SingleOrDefaultAsync(x => x.Id == tripId);
+        }
+
         public IEnumerable<Trip> GetByPredicate(Func<Trip, bool> predicate)
         {
             return _dbContext.Trips.Include(x => x.TripParticipants).Where(predicate);

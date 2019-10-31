@@ -6,5 +6,7 @@ namespace Hiker.API.Converters.Interfaces
     public interface ITripDestinationConverter
     {
         TripDestination Convert(TripDestinationResource tripDestinationResource);
+
+        TripDestinationResource Convert(TripDestination tripDestination);
     }
 }

@@ -1,11 +1,10 @@
 ﻿using Hiker.API.DTO.Resource;
-using Hiker.API.DTO.Resource.Briefs;
 using Hiker.Persistence.DAO;
 
 namespace Hiker.API.Converters.Interfaces
 {
-    public interface IUserConverter
+    public interface ITripResourceConverter
     {
-        UserResource Convert(User user);
+        TripResource Convert(Trip trip);
     }
 }

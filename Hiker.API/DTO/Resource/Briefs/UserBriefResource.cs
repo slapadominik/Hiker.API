@@ -1,7 +1,12 @@
-﻿namespace Hiker.API.DTO.Resource.Briefs
+﻿using System;
+
+namespace Hiker.API.DTO.Resource.Briefs
 {
     public class UserBriefResource
     {
-        public int Count { get; set; }
+        public Guid Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string ProfilePictureUrl { get; set; }
     }
 }
