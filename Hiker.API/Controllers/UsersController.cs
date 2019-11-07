@@ -63,11 +63,11 @@ namespace Hiker.API.Controllers
                 IEnumerable<Trip> trips;
                 if (dateFrom.HasValue)
                 {
-                    trips = await _mediator.Send(new GetUserTripsByPredicateQuery(userId, x => x.DateFrom >= dateFrom));
+                    trips = await _mediator.Send(new GetUserTripsByPredicateQuery(x => x.DateFrom >= dateFrom && x.AuthorId == userId));
                 }
                 else if (dateTo.HasValue)
                 {
-                    trips = await _mediator.Send(new GetUserTripsByPredicateQuery(userId, x => x.DateTo <= dateTo));
+                    trips = await _mediator.Send(new GetUserTripsByPredicateQuery(x => x.DateTo <= dateTo && x.AuthorId == userId));
                 }
                 else
                 {

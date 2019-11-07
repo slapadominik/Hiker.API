@@ -35,6 +35,7 @@ namespace Hiker.Persistence.Repositories
 
         public IEnumerable<Trip> GetByPredicate(Func<Trip, bool> predicate)
         {
+       
             return _dbContext.Trips.Include(x => x.TripParticipants).Where(predicate);
         }
     }

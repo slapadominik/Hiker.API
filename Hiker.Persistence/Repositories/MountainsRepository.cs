@@ -34,12 +34,4 @@ namespace Hiker.Persistence.Repositories
             return mountain?.ThumbnailId;
         }
     }
-
-    public static class MountainsQueryableExtensions
-    {
-        public static IQueryable<Mountain> WithImages(this IQueryable<Mountain> query)
-        {
-            return query.Include(x => x.MountainImages);
-        }
-    }
 }

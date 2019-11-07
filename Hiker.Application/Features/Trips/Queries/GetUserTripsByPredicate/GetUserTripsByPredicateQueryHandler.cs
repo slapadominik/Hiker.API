@@ -19,7 +19,7 @@ namespace Hiker.Application.Features.Trips.Queries.GetIncomingTripsByUserId
 
         public Task<IEnumerable<Trip>> Handle(GetUserTripsByPredicateQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_tripsRepository.GetByPredicate(x => request.UserId == x.AuthorId && request.Predicate.Invoke(x)));
+            return Task.FromResult(_tripsRepository.GetByPredicate(x => request.Predicate.Invoke(x)));
         }
     }
 }
