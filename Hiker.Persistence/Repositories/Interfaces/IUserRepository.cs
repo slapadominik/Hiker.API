@@ -6,7 +6,7 @@ namespace Hiker.Persistence.Repositories.Interfaces
 {
     public interface IUserRepository
     {
-        Task<User> Get(Func<User, bool> predicate);
+        Task<User> GetAsync(Func<User, bool> predicate);
         Task<User> GetByFacebookIdAsync(string id);
         Task<Guid> AddAsync(User user);
     }

@@ -17,7 +17,7 @@ namespace Hiker.Application.Features.Users.Queries.GetUser
 
         public Task<User> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
-            return _userRepository.Get(request.Predicate);
+            return _userRepository.GetAsync(request.Predicate);
         }
     }
 }

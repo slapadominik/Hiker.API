@@ -1,8 +1,10 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Hiker.Application.Common.Exceptions;
 using Hiker.Persistence.Repositories.Interfaces;
 using MediatR;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Hiker.Application.Features.Trips.Commands.AddTripParticipant
 {
@@ -21,14 +23,21 @@ namespace Hiker.Application.Features.Trips.Commands.AddTripParticipant
 
         protected override async Task Handle(AddTripParticipantCommand request, CancellationToken cancellationToken)
         {
-            if (await _userRepository.Get(x => x.Id == request.TripParticipant.UserId) == null)
+            if (await _userRepository.GetAsync(x => x.Id == request.TripParticipant.UserId) == null)
             {
                 throw new EntityNotFoundException($"User with Id {request.TripParticipant.UserId} doesn't exist.");
             }
 
-            if (await _tripsRepository.GetByIdAsync(request.TripParticipant.TripId) == null)
+            var trip = await _tripsRepository.GetByIdAsync(request.TripParticipant.TripId);
+            if (trip == null)
             {
                 throw new EntityNotFoundException($"Trip with Id {request.TripParticipant.UserId} doesn't exist.");
+            }
+
+            if (trip.TripParticipants.SingleOrDefault(x => x.UserId == request.TripParticipant.UserId) != null
+                || trip.AuthorId == request.TripParticipant.UserId)
+            {
+                throw new UniqueConstraintViolatedException($"User with Id {request.TripParticipant.UserId} already participates in trip with Id {request.TripParticipant.TripId}.");
             }
             await _tripParticipantRepository.AddAsync(request.TripParticipant);
         }

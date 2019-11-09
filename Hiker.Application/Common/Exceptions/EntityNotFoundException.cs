@@ -4,12 +4,11 @@ namespace Hiker.Application.Common.Exceptions
 {
     public class EntityNotFoundException : Exception
     {
-        public EntityNotFoundException()
-        {
-        }
+        public string Message { get;  }
 
         public EntityNotFoundException(string message) : base(message)
         {
+            Message = message;
         }
     }
 }

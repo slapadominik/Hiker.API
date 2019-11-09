@@ -7,6 +7,7 @@ using Hiker.API.DTO.Resource;
 using Hiker.API.DTO.Resource.Briefs;
 using Hiker.API.DTO.Resource.Command;
 using Hiker.API.DTO.Resource.Query;
+using Hiker.Application.Common.Exceptions;
 using Hiker.Application.Features.Trips.Commands.AddTrip;
 using Hiker.Application.Features.Trips.Commands.AddTripParticipant;
 using Hiker.Application.Features.Trips.Queries.GetTripDetails;
@@ -82,8 +83,18 @@ namespace Hiker.API.Controllers
         {
             try
             {
-                 await _mediator.Send(new AddTripParticipantCommand(_tripParticipantConverter.Convert(tripParticipantResource.UserId,tripId)));
+                await _mediator.Send(
+                    new AddTripParticipantCommand(
+                        _tripParticipantConverter.Convert(tripParticipantResource.UserId, tripId)));
                 return Ok();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (UniqueConstraintViolatedException ex)
+            {
+                return UnprocessableEntity(ex.Message);
             }
             catch (Exception ex)
             {

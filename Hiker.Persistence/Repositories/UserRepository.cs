@@ -16,7 +16,7 @@ namespace Hiker.Persistence.Repositories
             _dbContext = dbContext;
         }
 
-        public Task<User> Get(Func<User, bool> predicate)
+        public Task<User> GetAsync(Func<User, bool> predicate)
         {
             return _dbContext.Users.SingleOrDefaultAsync(x => predicate.Invoke(x));
         }
