@@ -27,7 +27,7 @@ namespace Hiker.Application.Tests.IntegrationTests
                     services.Remove(descriptor);
                 }
 
-                // Add ApplicationDbContext using an in-memory database for testing.
+                // AddAsync ApplicationDbContext using an in-memory database for testing.
                 services.AddDbContext<AppDbContext>((options, context) =>
                 {
                     context.UseInMemoryDatabase("InMemoryDbForTesting");

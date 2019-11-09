@@ -6,7 +6,9 @@ using Hiker.API.Converters.Interfaces;
 using Hiker.API.DTO.Resource;
 using Hiker.API.DTO.Resource.Briefs;
 using Hiker.API.DTO.Resource.Command;
+using Hiker.API.DTO.Resource.Query;
 using Hiker.Application.Features.Trips.Commands.AddTrip;
+using Hiker.Application.Features.Trips.Commands.AddTripParticipant;
 using Hiker.Application.Features.Trips.Queries.GetTripDetails;
 using Hiker.Application.Features.Trips.Queries.GetUpcomingTripsForMountainObject;
 using MediatR;
@@ -22,13 +24,15 @@ namespace Hiker.API.Controllers
         private readonly ITripConverter _tripConverter;
         private readonly ITripResourceConverter _tripResourceConverter;
         private readonly ITripBriefResourceConverter _tripBriefResourceConverter;
+        private readonly ITripParticipantConverter _tripParticipantConverter;
 
-        public TripsController(IMediator mediator, ITripConverter tripConverter, ITripResourceConverter tripResourceConverter, ITripBriefResourceConverter tripBriefResourceConverter)
+        public TripsController(IMediator mediator, ITripConverter tripConverter, ITripResourceConverter tripResourceConverter, ITripBriefResourceConverter tripBriefResourceConverter, ITripParticipantConverter tripParticipantConverter)
         {
             _mediator = mediator;
             _tripConverter = tripConverter;
             _tripResourceConverter = tripResourceConverter;
             _tripBriefResourceConverter = tripBriefResourceConverter;
+            _tripParticipantConverter = tripParticipantConverter;
         }
 
         [HttpPost]
@@ -60,12 +64,26 @@ namespace Hiker.API.Controllers
         }
 
         [HttpGet("{tripId}")]
-        public async Task<ActionResult<int>> Get([FromRoute] int tripId)
+        public async Task<ActionResult<TripQueryResource>> Get([FromRoute] int tripId)
         {
             try
             {
                 var trip = await _mediator.Send(new GetTripDetailsQuery(tripId));
                 return Ok(_tripResourceConverter.Convert(trip));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("{tripId}/tripParticipants")]
+        public async Task<IActionResult> AddParticipant([FromRoute] int tripId, [FromBody] TripParticipantCommandResource tripParticipantResource)
+        {
+            try
+            {
+                 await _mediator.Send(new AddTripParticipantCommand(_tripParticipantConverter.Convert(tripParticipantResource.UserId,tripId)));
+                return Ok();
             }
             catch (Exception ex)
             {
