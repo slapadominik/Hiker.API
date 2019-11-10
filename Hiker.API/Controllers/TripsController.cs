@@ -10,6 +10,7 @@ using Hiker.API.DTO.Resource.Query;
 using Hiker.Application.Common.Exceptions;
 using Hiker.Application.Features.Trips.Commands.AddTrip;
 using Hiker.Application.Features.Trips.Commands.AddTripParticipant;
+using Hiker.Application.Features.Trips.Commands.DeleteTripParticipant;
 using Hiker.Application.Features.Trips.Queries.GetTripDetails;
 using Hiker.Application.Features.Trips.Queries.GetUpcomingTripsForMountainObject;
 using MediatR;
@@ -71,6 +72,26 @@ namespace Hiker.API.Controllers
             {
                 var trip = await _mediator.Send(new GetTripDetailsQuery(tripId));
                 return Ok(_tripResourceConverter.Convert(trip));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{tripId}/tripParticipants")]
+        public async Task<IActionResult> DeleteParticipant([FromRoute] int tripId, [FromBody] TripParticipantCommandResource tripParticipantResource)
+        {
+            try
+            {
+                await _mediator.Send(
+                    new DeleteTripParticipantCommand(
+                        _tripParticipantConverter.Convert(tripParticipantResource.UserId, tripId)));
+                return Ok();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return UnprocessableEntity(ex.Message);
             }
             catch (Exception ex)
             {

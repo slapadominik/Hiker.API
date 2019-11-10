@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Hiker.Persistence.DAO;
 using Hiker.Persistence.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hiker.Persistence.Repositories
 {
@@ -17,6 +19,17 @@ namespace Hiker.Persistence.Repositories
         {
             _dbContext.TripParticipants.AddAsync(tripParticipant);
             return _dbContext.SaveChangesAsync();
+        }
+
+        public Task DeleteAsync(TripParticipant tripParticipant)
+        {
+            _dbContext.TripParticipants.Remove(tripParticipant);
+            return _dbContext.SaveChangesAsync();
+        }
+
+        public Task<TripParticipant> GetAsync(Guid userId, int tripId)
+        {
+            return _dbContext.TripParticipants.SingleOrDefaultAsync(x => x.TripId == tripId && x.UserId == userId);
         }
     }
 }
