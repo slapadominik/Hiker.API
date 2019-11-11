@@ -80,13 +80,13 @@ namespace Hiker.API.Controllers
         }
 
         [HttpDelete("{tripId}/tripParticipants")]
-        public async Task<IActionResult> DeleteParticipant([FromRoute] int tripId, [FromBody] TripParticipantCommandResource tripParticipantResource)
+        public async Task<IActionResult> DeleteParticipant([FromRoute] int tripId, [FromQuery] Guid userId)
         {
             try
             {
                 await _mediator.Send(
                     new DeleteTripParticipantCommand(
-                        _tripParticipantConverter.Convert(tripParticipantResource.UserId, tripId)));
+                        _tripParticipantConverter.Convert(userId, tripId)));
                 return Ok();
             }
             catch (EntityNotFoundException ex)
