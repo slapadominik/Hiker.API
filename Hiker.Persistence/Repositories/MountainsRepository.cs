@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Hiker.Persistence.DAO;
 using Hiker.Persistence.Repositories.Interfaces;
@@ -20,12 +18,20 @@ namespace Hiker.Persistence.Repositories
 
         public Task<List<Mountain>> GetAllAsync()
         {
-            return _appDbContext.Mountains.Include(x => x.Location).ToListAsync();
+            return _appDbContext.Mountains
+                .Include(x => x.Location)
+                .Include(x => x.MountainTrail)
+                .Include(x => x.TripDestinations).ThenInclude(x => x.Trip)
+                .ToListAsync();
         }
 
-        public IQueryable<Mountain> GetByIdAsync(int id)
+        public Task<Mountain> GetByIdAsync(int mountainId)
         {
-            return _appDbContext.Mountains.Include(x => x.Location).Include(y => y.ThumbnailId);
+            return _appDbContext.Mountains
+                .Include(x => x.Location)
+                .Include(x => x.MountainImages)
+                .Include(x => x.MountainTrail).ThenInclude(x => x.Color)
+                .SingleOrDefaultAsync(x => x.Id == mountainId);
         }
 
         public async Task<Guid?> GetMountainThumbnailIdAsync(int mountainId)

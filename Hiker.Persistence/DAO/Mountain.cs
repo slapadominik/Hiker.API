@@ -10,11 +10,12 @@ namespace Hiker.Persistence.DAO
         public int Id { get; set; }
         public string Name { get; set; }
         public int MetersAboveSeaLevel { get; set; }
-        public IEnumerable<MountainTrail> MountainTrail { get; set; }
         public Guid ThumbnailId { get; set; }
         public Location Location { get; set; }
         public int LocationId { get; set; }
+        public IEnumerable<MountainTrail> MountainTrail { get; set; }
         public IEnumerable<MountainImage> MountainImages { get; set; }
+        public IEnumerable<TripDestination> TripDestinations { get; set; }
 
         public Mountain()
         {

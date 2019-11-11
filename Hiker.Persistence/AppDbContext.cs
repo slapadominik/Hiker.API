@@ -48,6 +48,16 @@ namespace Hiker.Persistence
                     new TripDestinationType { Id = 2, Name = "Rock"}
                 });
 
+
+            modelBuilder.Entity<MountainTrailColor>()
+                .HasData(new MountainTrailColor[]
+                {
+                    new MountainTrailColor { Id = 1, ColorName = "red" },
+                    new MountainTrailColor { Id = 2, ColorName = "blue"},
+                    new MountainTrailColor { Id = 3, ColorName = "yellow"},
+                    new MountainTrailColor { Id = 4, ColorName = "black"},
+                    new MountainTrailColor { Id = 5, ColorName = "green"},
+                });
         }
     }
 }

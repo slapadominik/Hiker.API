@@ -3,9 +3,7 @@
     public class MountainTrailResource
     {
         public int Id { get; set; }
-        public int MountainId { get; set; }
-        public TrailColorResource ColorResource { get; set; }
-        public float AverageTime { get; set; }
-        public int Difficulty { get; set; }
+        public float TimeToTopMinutes { get; set; }
+        public string Color { get; set; }
     }
 }

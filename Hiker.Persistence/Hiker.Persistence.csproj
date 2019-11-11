@@ -11,6 +11,10 @@
     <Compile Remove="Migrations\20190915152104_Users.Designer.cs" />
     <Compile Remove="Migrations\20190915153003_Users.cs" />
     <Compile Remove="Migrations\20190915153003_Users.Designer.cs" />
+    <Compile Remove="Migrations\20191111161014_MountainTrailColors.cs" />
+    <Compile Remove="Migrations\20191111161014_MountainTrailColors.Designer.cs" />
+    <Compile Remove="Migrations\20191111163021_MountainTrails.cs" />
+    <Compile Remove="Migrations\20191111163021_MountainTrails.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

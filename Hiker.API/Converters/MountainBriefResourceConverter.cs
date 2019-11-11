@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AutoMapper;
 using Hiker.API.Converters.Interfaces;
 using Hiker.API.DTO.Resource;
@@ -25,6 +26,7 @@ namespace Hiker.API.Converters
         public MountainBriefResource Convert(Mountain mountain)
         {
             var result = _mapper.Map<MountainBriefResource>(mountain);
+            result.UpcomingTripsCount = mountain.TripDestinations.Count(x => x.Trip.DateFrom > DateTime.Now);
             result.Trails = new MountainTrailBriefResource
             {
                 Href = $"/api/mountains/{mountain.Id}/trails",

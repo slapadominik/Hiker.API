@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Hiker.API.Converters.Interfaces;
+using Hiker.API.DTO.Resource.Briefs;
 using Hiker.Application.Features.Trips.Queries.GetIncomingTripsByUserId;
 using Hiker.Application.Features.Users.Queries.GetUser;
 using Hiker.Persistence.DAO;
@@ -56,14 +57,14 @@ namespace Hiker.API.Controllers
         }
 
         [HttpGet("{userId}/trips")]
-        public async Task<IActionResult> GetUserTrips([FromRoute] Guid userId, [FromQuery] DateTime? dateFrom, [FromQuery] DateTime? dateTo)
+        public async Task<ActionResult<List<TripBriefResource>>> GetUserTrips([FromRoute] Guid userId, [FromQuery] DateTime? dateFrom, [FromQuery] DateTime? dateTo)
         {
             try
             {
                 IEnumerable<Trip> trips;
                 if (dateFrom.HasValue)
                 {
-                    trips = await _mediator.Send(new GetUserTripsByPredicateQuery(x => x.DateFrom >= dateFrom && x.AuthorId == userId));
+                    trips = await _mediator.Send(new GetUserTripsByPredicateQuery(x => x.DateFrom >= dateFrom && (x.AuthorId == userId || x.TripParticipants.Any(y => y.UserId == userId))));
                 }
                 else if (dateTo.HasValue)
                 {
@@ -71,7 +72,7 @@ namespace Hiker.API.Controllers
                 }
                 else
                 {
-                    return BadRequest("Either DateFrom or DateTo filter should be used.");
+                    return BadRequest("Either DateFrom or DateTo value should be filled.");
                 }
 
                 return Ok(trips.Select(x => _tripBriefResourceConverter.Convert(x)));

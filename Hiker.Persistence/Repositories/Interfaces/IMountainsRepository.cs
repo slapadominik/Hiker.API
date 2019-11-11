@@ -12,7 +12,7 @@ namespace Hiker.Persistence.Repositories.Interfaces
     public interface IMountainsRepository
     {
         Task<List<Mountain>> GetAllAsync();
-        IQueryable<Mountain> GetByIdAsync(int id);
+        Task<Mountain> GetByIdAsync(int mountainId);
         Task<Guid?> GetMountainThumbnailIdAsync(int mountainId);
     }
 }

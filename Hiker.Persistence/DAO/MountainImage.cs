@@ -8,6 +8,7 @@ namespace Hiker.Persistence.DAO
     public class MountainImage
     {
         public Guid ImageId { get; set; }
+        public string FileExtensions { get; set; }
         public Mountain Mountain { get; set; }
         public int MountainId { get; set; }
     }

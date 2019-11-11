@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Hiker.API.Converters.Interfaces;
-using Hiker.API.DTO;
 using Hiker.API.DTO.Resource;
 using Hiker.API.DTO.Resource.Briefs;
 using Hiker.Application.Common.Exceptions;
 using Hiker.Application.Features.Mountains.Queries.GellMountains;
+using Hiker.Application.Features.Mountains.Queries.GetMountain;
 using Hiker.Application.Features.Mountains.Queries.GetMountainsNearbyLocation;
 using Hiker.Application.Features.Mountains.Queries.GetThumbnail;
 using MediatR;
@@ -24,13 +21,15 @@ namespace Hiker.API.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMountainBriefResourceConverter _mountainBriefResourceConverter;
+        private readonly IMountainResourceConverter _mountainResourceConverter;
 
         public MountainsController(
             IMediator mediator, 
-            IMountainBriefResourceConverter mountainBriefResourceConverter)
+            IMountainBriefResourceConverter mountainBriefResourceConverter, IMountainResourceConverter mountainResourceConverter)
         {
             _mediator = mediator;
             _mountainBriefResourceConverter = mountainBriefResourceConverter;
+            _mountainResourceConverter = mountainResourceConverter;
         }
 
         [HttpGet("location")]
@@ -51,7 +50,15 @@ namespace Hiker.API.Controllers
         [Route("{mountainId}")]
         public async Task<ActionResult<MountainResource>> Get([FromRoute] int mountainId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var mountain = await _mediator.Send(new GetMountainQuery(mountainId));
+                return Ok(_mountainResourceConverter.Convert(mountain));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet]
