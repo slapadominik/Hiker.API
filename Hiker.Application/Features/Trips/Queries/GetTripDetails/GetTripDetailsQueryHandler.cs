@@ -17,7 +17,7 @@ namespace Hiker.Application.Features.Trips.Queries.GetTripDetails
 
         public Task<Trip> Handle(GetTripDetailsQuery request, CancellationToken cancellationToken)
         {
-            return _tripsRepository.GetByIdAsync(request.TripId);
+            return _tripsRepository.GetDetailsByIdAsync(request.TripId);
         }
     }
 }

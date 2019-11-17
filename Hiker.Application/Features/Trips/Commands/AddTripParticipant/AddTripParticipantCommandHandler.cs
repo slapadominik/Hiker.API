@@ -28,7 +28,7 @@ namespace Hiker.Application.Features.Trips.Commands.AddTripParticipant
                 throw new EntityNotFoundException($"User with Id {request.TripParticipant.UserId} doesn't exist.");
             }
 
-            var trip = await _tripsRepository.GetByIdAsync(request.TripParticipant.TripId);
+            var trip = await _tripsRepository.GetDetailsByIdAsync(request.TripParticipant.TripId);
             if (trip == null)
             {
                 throw new EntityNotFoundException($"Trip with Id {request.TripParticipant.UserId} doesn't exist.");

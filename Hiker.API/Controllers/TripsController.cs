@@ -10,6 +10,7 @@ using Hiker.API.DTO.Resource.Query;
 using Hiker.Application.Common.Exceptions;
 using Hiker.Application.Features.Trips.Commands.AddTrip;
 using Hiker.Application.Features.Trips.Commands.AddTripParticipant;
+using Hiker.Application.Features.Trips.Commands.DeleteTrip;
 using Hiker.Application.Features.Trips.Commands.DeleteTripParticipant;
 using Hiker.Application.Features.Trips.Queries.GetTripDetails;
 using Hiker.Application.Features.Trips.Queries.GetUpcomingTripsForMountainObject;
@@ -38,7 +39,7 @@ namespace Hiker.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> Add([FromBody] TripCommandResource tripCommand)
+        public async Task<ActionResult<int>> AddTrip([FromBody] TripCommandResource tripCommand)
         {
             try
             {
@@ -51,8 +52,22 @@ namespace Hiker.API.Controllers
             }
         }
 
+        [HttpDelete("{tripId}")]
+        public async Task<ActionResult<int>> DeleteTrip([FromRoute] int tripId)
+        {
+            try
+            {
+                await _mediator.Send(new DeleteTripCommand(tripId));
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet]
-        public async Task<ActionResult<List<TripBriefResource>>> GetBriefs([FromQuery] int tripDestinationType, [FromQuery] int? mountainId, [FromQuery] int? rockId, [FromQuery] DateTime dateFrom)
+        public async Task<ActionResult<List<TripBriefResource>>> GetTripsBriefs([FromQuery] int tripDestinationType, [FromQuery] int? mountainId, [FromQuery] int? rockId, [FromQuery] DateTime dateFrom)
         {
             try
             {
@@ -66,7 +81,7 @@ namespace Hiker.API.Controllers
         }
 
         [HttpGet("{tripId}")]
-        public async Task<ActionResult<TripQueryResource>> Get([FromRoute] int tripId)
+        public async Task<ActionResult<TripQueryResource>> GetTrip([FromRoute] int tripId)
         {
             try
             {

@@ -25,7 +25,18 @@ namespace Hiker.Persistence.Repositories
             return trip.Id;
         }
 
-        public Task<Trip> GetByIdAsync(int tripId)
+        public void Delete(Trip trip)
+        {
+            _dbContext.Trips.Remove(trip);
+            _dbContext.SaveChanges();
+        }
+
+        public Task<Trip> GetBriefByIdAsync(int tripId)
+        {
+            return _dbContext.Trips.SingleOrDefaultAsync(x => x.Id == tripId);
+        }
+
+        public Task<Trip> GetDetailsByIdAsync(int tripId)
         {
             return _dbContext.Trips.Include(x=> x.Author)
                 .Include(x => x.TripParticipants).ThenInclude(x => x.User)

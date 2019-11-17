@@ -8,7 +8,9 @@ namespace Hiker.Persistence.Repositories.Interfaces
     public interface ITripsRepository
     {
         int Add(Trip trip);
-        Task<Trip> GetByIdAsync(int tripId);
+        void Delete(Trip trip);
+        Task<Trip> GetBriefByIdAsync(int tripId);
+        Task<Trip> GetDetailsByIdAsync(int tripId);
         IEnumerable<Trip> GetByPredicate(Func<Trip, bool> predicate);
     }
 }
