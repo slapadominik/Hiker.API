@@ -14,5 +14,6 @@ namespace Hiker.Persistence.Repositories.Interfaces
         Task<List<Mountain>> GetAllAsync();
         Task<Mountain> GetByIdAsync(int mountainId);
         Task<Guid?> GetMountainThumbnailIdAsync(int mountainId);
+        bool Exists(int mountainId);
     }
 }

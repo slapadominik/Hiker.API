@@ -33,7 +33,7 @@ namespace Hiker.Persistence.Repositories
 
         public Task<Trip> GetBriefByIdAsync(int tripId)
         {
-            return _dbContext.Trips.SingleOrDefaultAsync(x => x.Id == tripId);
+            return _dbContext.Trips.AsNoTracking().SingleOrDefaultAsync(x => x.Id == tripId);
         }
 
         public Task<Trip> GetDetailsByIdAsync(int tripId)
@@ -43,6 +43,21 @@ namespace Hiker.Persistence.Repositories
                 .Include(x => x.TripDestinations).ThenInclude(x => x.Mountain).ThenInclude(x => x.Location)
                 .Include(x => x.TripDestinations).ThenInclude(x => x.Rock).ThenInclude(x => x.Location)
                 .SingleOrDefaultAsync(x => x.Id == tripId);
+        }
+
+        public void Update(Trip trip)
+        {
+            _dbContext.Attach(trip);
+            _dbContext.Entry(trip).Property(x => x.Description).IsModified = true;
+            _dbContext.Entry(trip).Property(x => x.DateFrom).IsModified = true;
+            _dbContext.Entry(trip).Property(x => x.DateTo).IsModified = true;
+            _dbContext.Entry(trip).Property(x => x.TripTitle).IsModified = true;
+            _dbContext.SaveChanges();
+        }
+
+        public bool Exists(int tripId)
+        {
+            return _dbContext.Trips.Any(x => x.Id == tripId);
         }
 
         public IEnumerable<Trip> GetByPredicate(Func<Trip, bool> predicate)

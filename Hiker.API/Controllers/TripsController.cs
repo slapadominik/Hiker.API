@@ -12,10 +12,12 @@ using Hiker.Application.Features.Trips.Commands.AddTrip;
 using Hiker.Application.Features.Trips.Commands.AddTripParticipant;
 using Hiker.Application.Features.Trips.Commands.DeleteTrip;
 using Hiker.Application.Features.Trips.Commands.DeleteTripParticipant;
+using Hiker.Application.Features.Trips.Commands.UpdateTrip;
 using Hiker.Application.Features.Trips.Queries.GetTripDetails;
 using Hiker.Application.Features.Trips.Queries.GetUpcomingTripsForMountainObject;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using AddTripCommand = Hiker.API.DTO.Resource.Command.AddTripCommand;
 
 namespace Hiker.API.Controllers
 {
@@ -39,11 +41,11 @@ namespace Hiker.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> AddTrip([FromBody] TripCommandResource tripCommand)
+        public async Task<ActionResult<int>> AddTrip([FromBody] AddTripCommand addTripCommand)
         {
             try
             {
-                var id = await _mediator.Send(new AddTripCommand(_tripConverter.Convert(tripCommand)));
+                var id = await _mediator.Send(new Application.Features.Trips.Commands.AddTrip.AddTripCommand(_tripConverter.Convert(addTripCommand)));
                 return Ok(id);
             }
             catch (Exception ex)
@@ -87,6 +89,20 @@ namespace Hiker.API.Controllers
             {
                 var trip = await _mediator.Send(new GetTripDetailsQuery(tripId));
                 return Ok(_tripResourceConverter.Convert(trip));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPatch("{tripId}")]
+        public async Task<IActionResult> UpdateTrip([FromRoute] int tripId, [FromBody] UpdateTrip updateTrip)
+        {
+            try
+            {
+                await _mediator.Send(new UpdateTripCommand(_tripConverter.Convert(tripId, updateTrip)));
+                return Ok();
             }
             catch (Exception ex)
             {

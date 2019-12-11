@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Hiker.Persistence.DAO;
 using Hiker.Persistence.Repositories.Interfaces;
@@ -38,6 +39,11 @@ namespace Hiker.Persistence.Repositories
         {
             var mountain = await _appDbContext.Mountains.SingleOrDefaultAsync(x => x.Id == mountainId);
             return mountain?.ThumbnailId;
+        }
+
+        public bool Exists(int mountainId)
+        {
+            return _appDbContext.Mountains.Any(x => x.Id == mountainId);
         }
     }
 }

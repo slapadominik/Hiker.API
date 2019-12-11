@@ -4,7 +4,7 @@ using Hiker.API.DTO.Resource.Briefs;
 
 namespace Hiker.API.DTO.Resource.Command
 {
-    public class TripCommandResource
+    public class AddTripCommand
     {
         public string TripTitle { get; set; }
         public Guid AuthorId { get; set; }
@@ -13,7 +13,7 @@ namespace Hiker.API.DTO.Resource.Command
         public string Description { get; set; }
         public IEnumerable<TripDestinationBriefResource> TripDestinations { get; set; }
 
-        public TripCommandResource()
+        public AddTripCommand()
         {
             TripDestinations = new List<TripDestinationBriefResource>();
         }

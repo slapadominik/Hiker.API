@@ -8,5 +8,7 @@ namespace Hiker.Persistence.Repositories.Interfaces
     {
         IEnumerable<TripDestination> GetUpcomingByMountainId(int mountainId, DateTime dateFrom);
         IEnumerable<TripDestination> GetUpcomingByRockId(int rockId, DateTime dateFrom);
+        void Delete(int tripId);
+        void AddRange(IEnumerable<TripDestination> tripDestinations);
     }
 }

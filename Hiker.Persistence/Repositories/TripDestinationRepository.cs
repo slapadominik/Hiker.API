@@ -10,8 +10,6 @@ namespace Hiker.Persistence.Repositories
     public class TripDestinationRepository : ITripDestinationRepository
     {
         private readonly AppDbContext _appDbContext;
-        private const int MountainType = 1;
-        private const int RockType = 2;
 
         public TripDestinationRepository(AppDbContext appDbContext)
         {
@@ -28,8 +26,21 @@ namespace Hiker.Persistence.Repositories
         public IEnumerable<TripDestination> GetUpcomingByRockId(int rockId, DateTime dateFrom)
         {
             return _appDbContext.TripDestinations
-                .Include(x => x.Trip)
+                .Include(x => x.Rock)
                 .Where(x => x.RockId == rockId && x.Trip.DateFrom > dateFrom);
+        }
+
+        public void Delete(int tripId)
+        {
+            var destinations = _appDbContext.TripDestinations.Where(x => x.TripId == tripId);
+            _appDbContext.TripDestinations.RemoveRange(destinations);
+            _appDbContext.SaveChanges();
+        }
+
+        public void AddRange(IEnumerable<TripDestination> tripDestinations)
+        {
+            _appDbContext.TripDestinations.AddRange(tripDestinations);
+            _appDbContext.SaveChanges();
         }
     }
 }

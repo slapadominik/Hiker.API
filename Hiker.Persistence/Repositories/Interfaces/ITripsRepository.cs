@@ -11,6 +11,8 @@ namespace Hiker.Persistence.Repositories.Interfaces
         void Delete(Trip trip);
         Task<Trip> GetBriefByIdAsync(int tripId);
         Task<Trip> GetDetailsByIdAsync(int tripId);
+        void Update(Trip trip);
+        bool Exists(int tripId);
         IEnumerable<Trip> GetByPredicate(Func<Trip, bool> predicate);
     }
 }
