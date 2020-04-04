@@ -11,13 +11,15 @@ namespace Hiker.API.Converters
     public class MountainBriefResourceConverter : IMountainBriefResourceConverter
     {
         private readonly IMapper _mapper;
+        private readonly ILocationConverter _locationConverter;
 
-        public MountainBriefResourceConverter(IValueConverter<Location, LocationResource> locationResourceConverter)
+        public MountainBriefResourceConverter(ILocationConverter locationConverter)
         {
+            _locationConverter = locationConverter;
             var mapperConfig = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Mountain, MountainBriefResource>()
-                    .ForMember(x => x.Location, opt => opt.ConvertUsing(locationResourceConverter))
+                    .ForMember(x => x.Location, opt => opt.Ignore())
                     .ForMember(x => x.Trails, opt => opt.Ignore());
             });
             _mapper = mapperConfig.CreateMapper();
@@ -27,11 +29,16 @@ namespace Hiker.API.Converters
         {
             var result = _mapper.Map<MountainBriefResource>(mountain);
             result.UpcomingTripsCount = mountain.TripDestinations.Count(x => x.Trip.DateFrom > DateTime.Now);
-            result.Trails = new MountainTrailBriefResource
+            result.Location = _locationConverter.Convert(mountain.Latitude, mountain.Longitude, mountain.Location.RegionName);
+            if (mountain.MountainTrail != null)
             {
-                Href = $"/api/mountains/{mountain.Id}/trails",
-                Count = mountain.MountainTrail.Count()
-            };
+                result.Trails = new MountainTrailBriefResource
+                {
+                    Href = $"/api/mountains/{mountain.Id}/trails",
+                    Count = mountain.MountainTrail.Count()
+                };
+            }
+          
             return result;
         }
     }

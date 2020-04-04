@@ -26,6 +26,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Hiker.Persistence\Hiker.Persistence.csproj" />
+    <ProjectReference Include="..\Structs\Structs.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Common\Helpers\" />
   </ItemGroup>
 
 </Project>

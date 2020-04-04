@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Hiker.Persistence.DAO;
 using Hiker.Persistence.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Structs;
+using Utilities.Consts;
 
 namespace Hiker.Persistence.Repositories
 {
@@ -44,6 +47,20 @@ namespace Hiker.Persistence.Repositories
         public bool Exists(int mountainId)
         {
             return _appDbContext.Mountains.Any(x => x.Id == mountainId);
+        }
+
+        public Task<List<Mountain>> GetMountainsWithUpcomingTripsByRadius(LatLongRadius latLong, int radiusKilometers)
+        {
+            return _appDbContext.Mountains
+                .Include(x => x.TripDestinations).ThenInclude(x => x.Trip)
+                .Include(x => x.Location)
+                .Where(y => Math.Acos((Math.Sin(latLong.Latitude) * Math.Sin(y.Latitude))
+                                                               + (Math.Cos(latLong.Latitude) * Math.Cos(y.Latitude) *
+                                                                  Math.Cos(y.Longitude - latLong.Longitude))) *
+                                                     Geography.EarthRadiusKilometers <= radiusKilometers
+                                                     && y.TripDestinations.Any(x =>
+                                                         x.TripDestinationTypeId == 1 &&
+                                                         x.Trip.DateFrom > DateTime.Now)).ToListAsync();
         }
     }
 }

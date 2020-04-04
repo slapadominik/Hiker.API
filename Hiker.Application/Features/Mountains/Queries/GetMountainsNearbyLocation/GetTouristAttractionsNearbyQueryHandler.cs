@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using Hiker.Persistence.DAO;
 using Hiker.Persistence.Repositories.Interfaces;
 using MediatR;
+using Structs;
+using Utilities.Extensions;
 
 namespace Hiker.Application.Features.Mountains.Queries.GetMountainsNearbyLocation
 {
-    public class GetTouristAttractionsNearbyQueryHandler : IRequestHandler<GetMountainsNearbyLocationQuery, IEnumerable<Mountain>>
+    public class GetTouristAttractionsNearbyQueryHandler : IRequestHandler<GetMountainsNearbyLocationQuery, List<Mountain>>
     {
         private readonly IMountainsRepository _mountainsRepository;
 
@@ -18,9 +20,11 @@ namespace Hiker.Application.Features.Mountains.Queries.GetMountainsNearbyLocatio
             _mountainsRepository = mountainsRepository;
         }
 
-        public Task<IEnumerable<Mountain>> Handle(GetMountainsNearbyLocationQuery request, CancellationToken cancellationToken)
+        public Task<List<Mountain>> Handle(GetMountainsNearbyLocationQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult<IEnumerable<Mountain>>(new List<Mountain> {new Mountain {Id = 2}});
+            return _mountainsRepository.GetMountainsWithUpcomingTripsByRadius(
+                new LatLongRadius{Latitude = request.Latitude.ToRadians(), Longitude = request.Longitude.ToRadians()}, 
+                request.RadiusKilometers);
         }
     }
 }

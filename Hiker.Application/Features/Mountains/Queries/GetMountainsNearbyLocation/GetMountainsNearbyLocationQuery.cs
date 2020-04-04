@@ -4,17 +4,17 @@ using MediatR;
 
 namespace Hiker.Application.Features.Mountains.Queries.GetMountainsNearbyLocation
 {
-    public class GetMountainsNearbyLocationQuery : IRequest<IEnumerable<Mountain>>
+    public class GetMountainsNearbyLocationQuery : IRequest<List<Mountain>>
     {
-        public GetMountainsNearbyLocationQuery(double latitude, double longitude, double radius)
+        public GetMountainsNearbyLocationQuery(double latitude, double longitude, int radiusKilometers)
         {
             Latitude = latitude;
             Longitude = longitude;
-            Radius = radius;
+            RadiusKilometers = radiusKilometers;
         }
 
         public double Latitude { get; }
         public double Longitude { get; }
-        public double Radius{ get; }
+        public int RadiusKilometers { get; }
     }
 }

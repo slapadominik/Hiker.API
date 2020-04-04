@@ -65,7 +65,7 @@ namespace Hiker.Application.Tests.IntegrationTests
 
         private void InitDbForTests(AppDbContext dbContext)
         {
-            dbContext.Locations.Add(new Location {Id = 1, Latitude = 10, Longitude = 10, RegionName = "Tatry"});
+            dbContext.Locations.Add(new Location {Id = 1, RegionName = "Tatry"});
             dbContext.Mountains.Add(new Mountain {Id = 1, MetersAboveSeaLevel = 2503, Name = "Rysy", LocationId = 1});
             dbContext.SaveChanges();
         }

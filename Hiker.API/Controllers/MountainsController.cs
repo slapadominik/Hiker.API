@@ -32,13 +32,16 @@ namespace Hiker.API.Controllers
             _mountainResourceConverter = mountainResourceConverter;
         }
 
-        [HttpGet("location")]
-        public async Task<ActionResult<IEnumerable<MountainResource>>> GetManyNearbyLocation([FromQuery] double latitude, [FromQuery] double longitude, [FromQuery] double radius)
+        [HttpGet("upcomingTripsByRadius")]
+        public async Task<ActionResult<IEnumerable<MountainBriefResource>>> GetMountainsWithUpcomingTripsByRadius([FromQuery]
+            double latitude, 
+            [FromQuery] double longitude, 
+            [FromQuery] int radiusKilometers)
         {
             try
             {
-                var mountains = await _mediator.Send(new GetMountainsNearbyLocationQuery(latitude, longitude, radius));
-                return Ok(mountains);
+                var mountains = await _mediator.Send(new GetMountainsNearbyLocationQuery(latitude, longitude, radiusKilometers));
+                return Ok(mountains.Select(x => _mountainBriefResourceConverter.Convert(x)));
             }
             catch (Exception ex)
             {

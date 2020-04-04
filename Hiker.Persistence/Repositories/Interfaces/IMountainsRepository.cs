@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Hiker.Persistence.DAO;
+using Structs;
 
 
 namespace Hiker.Persistence.Repositories.Interfaces
@@ -15,5 +16,6 @@ namespace Hiker.Persistence.Repositories.Interfaces
         Task<Mountain> GetByIdAsync(int mountainId);
         Task<Guid?> GetMountainThumbnailIdAsync(int mountainId);
         bool Exists(int mountainId);
+        Task<List<Mountain>> GetMountainsWithUpcomingTripsByRadius(LatLongRadius latLong, int radiusKilometers);
     }
 }

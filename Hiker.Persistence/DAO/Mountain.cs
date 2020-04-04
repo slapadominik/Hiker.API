@@ -11,6 +11,8 @@ namespace Hiker.Persistence.DAO
         public string Name { get; set; }
         public int MetersAboveSeaLevel { get; set; }
         public Guid ThumbnailId { get; set; }
+        public float Latitude { get; set; }
+        public float Longitude { get; set; }
         public Location Location { get; set; }
         public int LocationId { get; set; }
         public IEnumerable<MountainTrail> MountainTrail { get; set; }
