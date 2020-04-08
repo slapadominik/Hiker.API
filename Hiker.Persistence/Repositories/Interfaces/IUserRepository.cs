@@ -9,5 +9,7 @@ namespace Hiker.Persistence.Repositories.Interfaces
         Task<User> GetAsync(Func<User, bool> predicate);
         Task<User> GetByFacebookIdAsync(string id);
         Task<Guid> AddAsync(User user);
+        Task<bool> UserExistsAsync(Guid userId);
+        Task<bool> UpdateUserAsync(User user);
     }
 }

@@ -12,7 +12,8 @@ namespace Hiker.API.DTO.Resource
         [JsonConverter(typeof(DateTimeConverter), "yyyy-MM-dd")]
         public DateTime Birthday { get; set; }
         public string Email { get; set; }
-        public char Gender { get; set; }
+        public string AboutMe { get; set; }
+        public string PhoneNumber { get; set; }
         public string FacebookId { get; set; }
     }
 }

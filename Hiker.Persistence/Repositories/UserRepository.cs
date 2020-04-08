@@ -32,5 +32,18 @@ namespace Hiker.Persistence.Repositories
             await _dbContext.SaveChangesAsync();
             return user.Id;
         }
+
+        public async Task<bool> UserExistsAsync(Guid userId)
+        {
+            var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id == userId);
+            return user != null;
+        }
+
+        public async Task<bool> UpdateUserAsync(User user)
+        {
+            _dbContext.Update(user);
+            var afftectedRows = await _dbContext.SaveChangesAsync();
+            return afftectedRows == 1;
+        }
     }
 }

@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Hiker.API.Converters.Interfaces;
 using Hiker.API.DTO.Resource.Briefs;
+using Hiker.API.DTO.Resource.Input;
 using Hiker.Application.Features.Trips.Queries.GetIncomingTripsByUserId;
+using Hiker.Application.Features.Users.Commands.EditUser;
 using Hiker.Application.Features.Users.Queries.GetUser;
 using Hiker.Persistence.DAO;
 using MediatR;
@@ -76,6 +78,25 @@ namespace Hiker.API.Controllers
                 }
 
                 return Ok(trips.Select(x => _tripBriefResourceConverter.Convert(x)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{userId}")]
+        public async Task<IActionResult> EditUserInformation([FromRoute] Guid userId, [FromBody] EditUserInformationInput input)
+        {
+            try
+            {
+                await _mediator.Send(new EditUserCommand(userId, 
+                    input.FirstName, 
+                    input.LastName, 
+                    input.Birthday,
+                    input.AboutMe,
+                    input.PhoneNumber));
+                return Ok(userId);
             }
             catch (Exception ex)
             {

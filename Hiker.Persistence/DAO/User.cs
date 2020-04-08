@@ -12,8 +12,10 @@ namespace Hiker.Persistence.DAO
         public string LastName { get; set; }
         public string Email { get; set; }
         public DateTime Birthday { get; set; }
-        public char Gender { get; set; }
         public string FacebookId { get; set; }
+        public string AboutMe { get; set; }
+        public string PhoneNumber{ get; set; }
+
         public IEnumerable<Trip> CreatedTrips { get; set; }
         public IEnumerable<TripParticipant> TripParticipants { get; set; }
 
