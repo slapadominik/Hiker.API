@@ -9,13 +9,7 @@ using FluentValidation;
 using Hiker.API.DI;
 using Hiker.API.Filters;
 using Hiker.Application.Common;
-using Hiker.Application.Features.Authentication.Services;
-using Hiker.Application.Features.Authentication.Services.Interfaces;
-using Hiker.Application.Features.Mountains.Queries.GetMountainsNearbyLocation;
-using Hiker.Application.Features.Trips.Commands.AddTrip;
 using Hiker.Persistence;
-using Hiker.Persistence.Repositories;
-using Hiker.Persistence.Repositories.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -25,8 +19,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -49,8 +41,10 @@ namespace Hiker.API
             services.InstallConverters();
             services.InstallServices();
             services.InstallValidators();
+            services.InstallConverters();
+            services.InstallConfigs(Configuration);
            
-            services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("HikerDbAzure")));
+            services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Localdb")));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info
@@ -113,8 +107,9 @@ namespace Hiker.API
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Hiker API");
             });
+            app.UseStaticFiles();
         }
     }
 }

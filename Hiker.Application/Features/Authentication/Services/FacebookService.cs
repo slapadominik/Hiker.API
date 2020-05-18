@@ -41,7 +41,6 @@ namespace Hiker.Application.Features.Authentication.Services
                 LastName = result.last_name,
                 Picture = result.picture.data.url,
                 Birthdate = result.birthday,
-                Gender = result.gender
             };
 
             return account;

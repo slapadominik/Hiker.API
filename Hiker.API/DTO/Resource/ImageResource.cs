@@ -11,9 +11,9 @@ namespace Hiker.API.DTO.Resource
             Url = url;
         }
 
-        public static ImageResource ForMountain(string imageId, string imageType)
+        public static ImageResource ForMountain(string serverAddress, string imageId, string imageType)
         {
-            return new ImageResource($"{AzureStorageConsts.ImagesUri}/{imageId.ToUpper()}.{imageType}");
+            return new ImageResource($"{serverAddress}/{imageId.ToUpper()}.{imageType}");
         }
     }
 }

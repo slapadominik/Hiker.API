@@ -1,9 +1,11 @@
 ﻿using System.Linq;
 using AutoMapper;
+using Hiker.API.Config;
 using Hiker.API.Converters.Interfaces;
 using Hiker.API.DTO.Resource;
 using Hiker.Application.Common.Consts;
 using Hiker.Persistence.DAO;
+using Microsoft.Extensions.Options;
 
 namespace Hiker.API.Converters
 {
@@ -13,7 +15,9 @@ namespace Hiker.API.Converters
         private readonly IMountainTrailResourceConverter _mountainTrailResourceConverter;
         private readonly ILocationConverter _locationConverter;
 
-        public MountainResourceConverter(IMountainTrailResourceConverter mountainTrailResourceConverter, ILocationConverter locationConverter)
+        public MountainResourceConverter(IMountainTrailResourceConverter mountainTrailResourceConverter,
+            ILocationConverter locationConverter,
+            IOptions<ResourcesOptions> config)
         {
             _mountainTrailResourceConverter = mountainTrailResourceConverter;
             _locationConverter = locationConverter;
@@ -21,7 +25,7 @@ namespace Hiker.API.Converters
             {
                 cfg.CreateMap<Mountain, MountainResource>()
                     .ForMember(x => x.MountainImages, 
-                        opt => opt.MapFrom(src => src.MountainImages.Select(y => ImageResource.ForMountain(y.ImageId.ToString(), y.FileExtensions))))
+                        opt => opt.MapFrom(src => src.MountainImages.Select(y => ImageResource.ForMountain(config.Value.ImagesBaseAddress,y.ImageId.ToString(), y.FileExtensions))))
                     .ForMember(x => x.Location, opt => opt.Ignore())
                     .ForMember(x => x.Trails, opt => opt.Ignore());
             });

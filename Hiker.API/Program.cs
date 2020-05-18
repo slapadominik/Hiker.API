@@ -23,13 +23,13 @@ namespace Hiker.API
             WebHost.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((context, config) =>
                 {
-                    var root = config.Build();
+                    /*var root = config.Build();
                     config.AddAzureKeyVault(
                         $"https://{root["KeyVault:VaultName"]}.vault.azure.net/",
                     root["KeyVault:ClientId"],
-                    root["KeyVault:ClientSecret"]);
+                    root["KeyVault:ClientSecret"]);*/
                 })
-                //                .UseUrls("http://*:5000")
+                .UseUrls("http://*:5000")
                 .UseStartup<Startup>();
     }
 }

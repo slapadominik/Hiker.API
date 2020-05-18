@@ -34,7 +34,6 @@ namespace Hiker.Application.Tests.UnitTests
             var facebookUser = new FacebookUser
             {
                 FacebookId = "123", Birthdate = DateTime.Now, Email = "email", FirstName = "Jan", LastName = "Kowalski",
-                Gender = "M"
             };
             var userId = Guid.NewGuid();
             _facebookServiceMock.Setup(x => x.GetUserFromFacebookAsync(facebookToken.Token)).ReturnsAsync(facebookUser);
