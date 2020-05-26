@@ -10,7 +10,7 @@ namespace Hiker.API.DTO.Resource
         public string FirstName { get; set; }
         public string LastName { get; set; }
         [JsonConverter(typeof(DateTimeConverter), "yyyy-MM-dd")]
-        public DateTime Birthday { get; set; }
+        public DateTime? Birthday { get; set; }
         public string Email { get; set; }
         public string AboutMe { get; set; }
         public string PhoneNumber { get; set; }
