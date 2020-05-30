@@ -8,7 +8,8 @@ namespace Hiker.API.DTO.Resource.Command
     {
         public string TripTitle { get; set; }
         public DateTime DateFrom { get; set; }
-        public DateTime DateTo { get; set; }
+        public DateTime? DateTo { get; set; }
+        public bool IsOneDay { get; set; }
         public string Description { get; set; }
         public IEnumerable<TripDestinationBriefResource> TripDestinations { get; set; }
     }

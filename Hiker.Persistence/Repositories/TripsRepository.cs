@@ -52,6 +52,7 @@ namespace Hiker.Persistence.Repositories
             _dbContext.Entry(trip).Property(x => x.DateFrom).IsModified = true;
             _dbContext.Entry(trip).Property(x => x.DateTo).IsModified = true;
             _dbContext.Entry(trip).Property(x => x.TripTitle).IsModified = true;
+            _dbContext.Entry(trip).Property(x => x.IsOneDay).IsModified = true;
             _dbContext.SaveChanges();
         }
 

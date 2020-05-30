@@ -10,7 +10,8 @@ namespace Hiker.API.DTO.Resource.Query
         public string TripTitle { get; set; }
         public UserBriefQueryResource Author { get; set; }
         public DateTime DateFrom { get; set; }
-        public DateTime DateTo { get; set; }
+        public DateTime? DateTo { get; set; }
+        public bool IsOneDay { get; set; }
         public string Description { get; set; }
         public IEnumerable<TripDestinationResource> TripDestinations { get; set; }
         public IEnumerable<UserBriefQueryResource> TripParticipants { get; set; }
