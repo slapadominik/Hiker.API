@@ -24,6 +24,7 @@ namespace Hiker.API.DI
             services.AddTransient<IRockBriefResourceConverter, RockBriefResourceConverter>();
             services.AddTransient<ITripParticipantConverter, TripParticipantConverter>();
             services.AddTransient<IMountainResourceConverter, MountainResourceConverter>();
+            services.AddTransient<IChatRoomMessageConverter, ChatRoomMessageConverter>();
             services.AddTransient<IMountainTrailResourceConverter, MountainTrailResourceConverter>();
             services.AddTransient<ILocationConverter, LocationConverter>();
         }

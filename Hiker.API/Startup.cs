@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using Hiker.API.DI;
 using Hiker.API.Filters;
+using Hiker.API.Hubs;
 using Hiker.Application.Common;
 using Hiker.Persistence;
 using MediatR;
@@ -37,14 +38,16 @@ namespace Hiker.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddSignalR();
             services.InstallRepositories();
             services.InstallConverters();
             services.InstallServices();
             services.InstallValidators();
             services.InstallConverters();
             services.InstallConfigs(Configuration);
-           
-            services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Localdb")));
+
+            var dbConnectionString = Configuration["LocalDb:ConnectionString"];
+            services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(dbConnectionString));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info
@@ -89,6 +92,7 @@ namespace Hiker.API
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         }
 
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -101,9 +105,13 @@ namespace Hiker.API
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
-            app.UseMvc();
             app.UseAuthentication();
+            app.UseMvc();
+        
+            app.UseSignalR(route =>
+            {
+                route.MapHub<ChatHub>("/chathub");
+            });
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

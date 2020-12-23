@@ -15,6 +15,7 @@ namespace Hiker.API.DI
             services.AddTransient<IImageService, ImageService>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IFacebookService, FacebookService>();
+            services.AddTransient<IJwtService, JwtService>();
             services.AddTransient<IRestClient, RestClient>();
             services.AddTransient<IJwtHandler, JwtHandler>();
         }

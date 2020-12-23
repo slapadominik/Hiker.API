@@ -17,7 +17,7 @@ namespace Hiker.Application.Features.Mountains.Queries.GetThumbnail
     {
         private readonly IImageService _imageService;
         private readonly IMountainsRepository _mountainsRepository;
-        private readonly ResourcesOptions _config;
+        private readonly ResourcesOptions _options;
 
         public GetThumbnailQueryHandler(
             IImageService imageService, 
@@ -26,7 +26,7 @@ namespace Hiker.Application.Features.Mountains.Queries.GetThumbnail
         {
             _imageService = imageService;
             _mountainsRepository = mountainsRepository;
-            _config = config.Value;
+            _options = config.Value;
         }
 
         public async Task<byte[]> Handle(GetThumbnailQuery request, CancellationToken cancellationToken)
@@ -36,7 +36,7 @@ namespace Hiker.Application.Features.Mountains.Queries.GetThumbnail
             {
                 throw new EntityNotFoundException($"Entity not found");
             }
-            return _imageService.GetRemoteImage(new Uri(_config.ImagesBaseAddress), thumbnailId.Value, ImageType.Jpeg);
+            return _imageService.GetRemoteImage(new Uri(_options.ImagesBaseAddress), thumbnailId.Value, ImageType.Jpeg);
         }
     }
 }

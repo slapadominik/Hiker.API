@@ -15,6 +15,7 @@ namespace Hiker.Persistence
         public DbSet<MountainImage> MountainImages { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<TripParticipant> TripParticipants { get; set; }
+        public DbSet<ChatRoomMessage> ChatRoomMessages { get; set; }
 
         public AppDbContext(DbContextOptions options) : base(options)
         {

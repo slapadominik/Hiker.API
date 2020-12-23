@@ -13,6 +13,7 @@ namespace Hiker.API.DI
         public static void InstallConfigs(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<ResourcesOptions>(configuration.GetSection("Resources"));
+            services.Configure<JwtOptions>(configuration.GetSection("jwt"));
         }
     }
 }

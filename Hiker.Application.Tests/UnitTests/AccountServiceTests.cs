@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Hiker.Application.Common.Services.Interfaces;
 using Hiker.Application.Features.Authentication.DTO;
 using Hiker.Application.Features.Authentication.Services;
 using Hiker.Application.Features.Authentication.Services.Interfaces;
@@ -17,13 +18,15 @@ namespace Hiker.Application.Tests.UnitTests
         private AccountService _sut;
         private Mock<IFacebookService> _facebookServiceMock;
         private Mock<IUserRepository> _userRepositoryMock;
+        private Mock<IJwtService> _jwtServiceMock;
 
         [SetUp]
         public void SetUp()
         {
             _facebookServiceMock = new Mock<IFacebookService>(MockBehavior.Strict);
             _userRepositoryMock = new Mock<IUserRepository>(MockBehavior.Strict);
-            _sut = new AccountService(_facebookServiceMock.Object, _userRepositoryMock.Object);
+            _jwtServiceMock = new Mock<IJwtService>(MockBehavior.Strict);
+            _sut = new AccountService(_facebookServiceMock.Object, _userRepositoryMock.Object, _jwtServiceMock.Object);
         }
 
         [Test]

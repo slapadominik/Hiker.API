@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using Hiker.API.Converters.Interfaces;
+using Hiker.API.DTO.Resource.Input;
+using Hiker.API.DTO.Resource.Query;
 using Hiker.Application.Common.Exceptions;
 using Hiker.Application.Features.Authentication.DTO;
 using Hiker.Application.Features.Authentication.Services.Interfaces;
@@ -15,12 +18,17 @@ namespace Hiker.API.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAccountService _accountService;
+        private readonly IUserConverter _userConverter;
         private readonly ILogger<AuthenticationController> _logger;
 
-        public AuthenticationController(IAccountService accountService, ILogger<AuthenticationController> logger)
+        public AuthenticationController(
+            IAccountService accountService, 
+            ILogger<AuthenticationController> logger,
+            IUserConverter userConverter)
         {
             _accountService = accountService;
             _logger = logger;
+            _userConverter = userConverter;
         }
 
         [HttpPost]
@@ -41,6 +49,31 @@ namespace Hiker.API.Controllers
             {
                 _logger.LogInformation(ex.Message);
                 return Conflict("Entity already exists.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> LoginAsync([FromBody] LoginInput input)
+        {
+            try
+            {
+                var response = await _accountService.LoginAsync(new LoginQuery(input.FacebookToken));
+                return Ok(new LoginQueryResource
+                {
+                    Token = response.Token,
+                    User = _userConverter.Convert(response.User)
+                });
+            }
+            catch (RemoteEntityNotFoundException ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return Unauthorized(ex.Message);
             }
             catch (Exception ex)
             {

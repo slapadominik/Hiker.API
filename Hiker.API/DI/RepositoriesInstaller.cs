@@ -13,6 +13,7 @@ namespace Hiker.API.DI
             services.AddTransient<ITripsRepository, TripsRepository>();
             services.AddTransient<ITripDestinationRepository, TripDestinationRepository>();
             services.AddTransient<ITripParticipantRepository, TripParticipantRepository>();
+            services.AddTransient<IChatRoomMessageRepository, ChatRoomMessageRepository>();
         }
     }
 }
